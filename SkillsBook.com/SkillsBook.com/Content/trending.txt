@@ -1,0 +1,6 @@
+karma 20
+hello 20
+nepal 20
+nepal 20
+nepal 20
+nepal 20

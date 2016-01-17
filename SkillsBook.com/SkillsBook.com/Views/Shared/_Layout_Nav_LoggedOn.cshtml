@@ -1,0 +1,70 @@
+﻿   <!-- HEADER -->
+
+<div id="divHeaderWrapper">
+    <header class="header-standard-2">
+        <!-- MAIN NAV -->
+        <div class="navbar navbar-wp navbar-arrow mega-nav" role="navigation" style="background-color: #136ad5 !important; ">
+            <div class="container">
+                <div class="navbar-header">
+
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <i class="fa fa-bars icon-custom"></i>
+                    </button>
+
+                   
+                </div>
+                <div class="navbar-collapse collapse" style="background-color: #4288DD">
+                    <a class="navbar-brand" href='@Url.Action("Index","Home")' title="">
+
+                        <img src='@Url.Content("~/images/logo.png")' alt="" width="150" height="10">
+
+                    </a>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown dropdown-meganav mega-dropdown-fluid">
+                            <a href="@Url.Action("Index","Home")" style="color:#ffffff">Home</a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="@Url.Action("AddThread", "Page")" style="color:#ffffff">Add a Thread</a>
+                        </li>
+
+                        <li class="dropdown">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#" style="color:#ffffff">Classifieds</a>
+                            <ul class="dropdown-menu">
+                                <li><a href='@Url.Action("AddThread","Page")'>Add New Classified</a></li>
+                                <li><a href='@Url.Action("DisplayAllClassifieds","Page", new {type= "Housing"})'>Show Rooms/Housing</a></li>
+                                <li><a href='@Url.Action("DisplayAllClassifieds","Page", new {type= "BuySell"})'>Show Buy/Sell</a></li>
+                                <li><a href='@Url.Action("DisplayAllClassifieds","Page", new {type= "Jobs"})'>Show Local Jobs</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="@Url.Action("GetTags","Page")" style="color:#ffffff">Tags</a>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="@Url.Action("Index","Search")" style="color:#ffffff">Search</a>
+                        </li>
+                        <li class="dropdown">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#" style="color:#ffffff">Question</a>
+                            <ul class="dropdown-menu">
+                                <li><a href='@Url.Action("Index","Question")'>Ask a Question</a></li>
+                                <li><a href='@Url.Action("QuestionsOnly","Question")'>Answer a Question</a></li>
+                                <li><a href='@Url.Action("QuestionsOnly","Question")'>Show All</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="@Url.Action("Feedback","Account")" style="color:#ffffff">Stay Connected</a>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="@Url.Action("MyAccount","Account")" style="color:#ffffff">My Stuffs</a>
+                        </li>
+                        <li>
+                            <a href='@Url.Action("LogOut","Account")' style="color:#ffffff">LogOut</a>
+                        </li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </div>
+    </header>
+</div>

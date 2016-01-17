@@ -1,0 +1,119 @@
+﻿@using Elmah.ContentSyndication
+@model IEnumerable<SkillsBook.Models.ViewModel.AccountInfoViewModel>
+<script src='@Url.Content("~/Scripts/app/myaccount.js")'></script>
+<input type="hidden" value="@ViewData["TotalCount"]" id="totalcountLikes" />
+<input type="hidden" value="@ViewData["CurrentPage"]" id="currpage" />
+<div id="pagination">
+    <ul class="pagination pagination-sm">
+        @for (var i = 1; i <= Convert.ToInt32(ViewData["TotalPages"]); i++)
+        {
+            if (Convert.ToInt32(ViewData["CurrentPage"]) == i)
+            {
+                if (i < 1)
+                {
+                    continue;
+                }
+                <li class="active"><a href="javascript:void(0)">@i</a></li>
+            }
+            else
+            {
+                <li class=""><a href="javascript:void(0)" id="@i">@i</a></li> }
+        }
+    </ul>
+</div>
+<div id="tabs-post">
+    <div class="tabs-framed">
+        <ul class="tabs clearfix">
+            <li class="" id="tab-post"><a href="#tab-1" data-toggle="tab">I Posted</a></li>
+            <li class="" id="tab-comment"><a href="#tab-2" data-toggle="tab">I Commented </a></li>
+            <li class="active" id="tab-likes"><a href="#tab-3" data-toggle="tab">I Liked <span id="lbllc"></span></a></li>
+            <li class="" id="tab-views"><a href="#" data-toggle="tab">I Viewed</a></li>
+            <li class="" id="tab-watch"><a href="#" data-toggle="tab">I am Watching</a></li>
+            <li class="" id="tab-classifieds"><a href="#" data-toggle="tab">My Classifieds</a></li>
+            <li class="" id="tab-questions"><a href="#" data-toggle="tab">My Questions</a></li>
+        </ul>
+    </div>
+    @if (Request.Browser.IsMobileDevice)
+    {
+        <small style="margin-left: 20px;">Scroll left to see more fields</small>
+    }
+
+    <div class="tab-content">
+        <!-- Tab 1 -->
+        <div class="tab-pane fade active in" id="tab-1">
+            <div class="tab-body">
+                <section class="invoice-financials">
+                    <div class="invoice-items table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th width="55%">Title</th>
+                                    <th></th>
+                                    <th id="date_id">Liked On<span> &#x25BC</span></th>
+                                    <th>Likes</th>
+                                    <th>Views</th>
+                                    <th>Comments</th>
+                                    <th>Watch</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr style="font-size: small">
+                                        <td><a href='@Url.Action("DisplayThread","Page", new{ threadId=@item.ThreadId})' target="_blank" style="float: left; color: cornflowerblue">@(item.Announcement ?? item.Title)</a></td>
+                                        <td><a href="javascript:void(0)" style="color:cornflowerblue" onclick="unlike('@item.ThreadId','@item.Likes')">Unlike</a></td>
+                                        <td>@item.LikedOn.ToShortDateString()</td> 
+                                        <td>@item.Likes</td>
+                                        <td>@item.Views</td>
+                                        <td>@item.Responses</td>
+                                        <td>@item.Watch</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <input type="hidden" id="currpage" value="" />
+
+        <input type="hidden" id="unlike-url" data-url='@Url.Action("Unlike","Account")' />
+        <input type="hidden" id="commentsurl" data-url='@Url.Action("GetCommentedPage","Account")' />
+        <input type="hidden" id="commentsurl" data-url='@Url.Action("GetCommentedPage","Account")' />
+        <div class="tab-pane fade" id="tab-2">
+            <div class="tab-body">
+
+            </div>
+        </div>
+        <input type="hidden" id="likesurl" data-url='@Url.Action("GetLikedPage","Account")' />
+        <div class="tab-pane fade" id="tab-3">
+            <div class="tab-body">
+
+            </div>
+        </div>
+        <input type="hidden" id="viewsurl" data-url='@Url.Action("GetViewedPage","Account")' />
+        <div class="tab-pane fade" id="tab-4">
+            <div class="tab-body">
+
+            </div>
+        </div>
+        <input type="hidden" id="watchurl" data-url='@Url.Action("GetWatchedPage","Account")' />
+        <div class="tab-pane fade" id="tab-5">
+            <div class="tab-body">
+
+            </div>
+        </div>
+        <input type="hidden" id="classifiedurl" data-url='@Url.Action("MyClassifieds", "Account")' />
+        <div class="tab-pane fade" id="tab-6">
+            <div class="tab-body">
+
+            </div>
+        </div>
+        <input type="hidden" id="questionurl" data-url='@Url.Action("MyQuestions", "Account")' />
+        <div class="tab-pane fade" id="tab-7">
+            <div class="tab-body">
+
+            </div>
+        </div>
+    </div>
+</div>

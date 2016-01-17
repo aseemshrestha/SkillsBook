@@ -1,0 +1,221 @@
+﻿@using System.Activities.Statements
+@model IEnumerable<SkillsBook.Models.ViewModel.AccountInfoViewModel>
+
+<link href="~/css/invoice.css" rel="stylesheet" />
+<div class="pg-opt">
+    <div class="container"><div class="row"><div class="col-md-6"><h2>My Stuffs</h2></div><div class="col-md-6"><ol class="breadcrumb"><li><a href="#">Welcome @ViewBag.Username </a></li></ol></div></div></div>
+</div>
+<section class="slice">
+    <div class="new" id="invoice">
+        <div class="this-is"><strong>My Activities</strong></div>
+        <header id="header">
+            <div class="invoice-intro">
+                <h1>@ViewBag.Username</h1>
+                <p>Random Quote - Building a Better Tomorrow Through Your Destruction</p>
+            </div>
+        </header>
+        <section id="parties">
+            <div class="invoice-to">
+                <h2>My Information</h2>
+                <span>Username: <strong><em>@ViewBag.Username</em></strong></span><br />
+                <span>Email: <strong><em>@ViewBag.Email</em></strong></span><br />
+                <a href="javascript:void(0)" style="color:cornflowerblue" id="updatePass">Update Password</a>
+            </div>
+            <div class="invoice-status">
+                <h3>User Status</h3>
+                <strong>You are  <em>Active</em></strong><br />
+                <span>Registered Since: <strong><em>@ViewBag.AccountCreatedOn</em></strong></span><br />
+                <span>Last Successful Login: <strong><em>@ViewBag.LastSuccessfulLogin</em></strong></span><br />
+                <span>Threads posted so far: <strong><em>@ViewBag.TotalPosts</em></strong></span><br />
+
+            </div>
+        </section>
+        <div class="invoice-notes">
+
+            <span id="error" style="color:red"></span>
+            <div class="form-body">
+                <form action='' id="frmupdatepass" class="sky-form" style="display:none">
+                    <fieldset class="no-padding">
+                        <section>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="label">Old Password</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-lock"></i>
+                                            <input type="password" name="oldpassword" placeholder="" value="" id="oldpass">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="label">New Password</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-lock"></i>
+                                            <input type="password" name="newpass" placeholder="" value="" id="newpass">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="label">Confirm Password</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-lock"></i>
+                                            <input type="password" name="confirmnewpass" placeholder="" value="" id="confirmnewpass">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <div class="col-md-4">
+                            <button class="btn btn-alt btn-icon btn-icon-right btn-icon-go pull-left" type="submit">
+                                <span>Update</span>
+                            </button>
+                        </div>
+                    </fieldset>
+
+                    <hr>
+
+                </form>
+            </div>
+            <p style="color:darkblue;font-size: medium" id="message">
+                <em>Note : Edits are not allowed. If you think you have to edit, you can delete and re-submit within the first 15 mins if your post hasn't been liked, commented or watched.</em> <br />
+                You can get answers to WHOs for e.g who liked, who is watching, who viewed etc from the home page <br />
+                by clicking the numbers below Likes,Views, Comments and Watching.
+            </p>
+        </div>
+        <input type="hidden" id="passupdate" data-url="@Url.Action("UpdatePassword","Account")" />
+        <input type="hidden" id="myaccurl" data-url="@Url.Action("MyAccount","Account")" />
+        <div id="callback"></div>
+        <div id="pagination">
+            <ul class="pagination pagination-sm">
+                @for (var i = 1; i <= Convert.ToInt32(ViewData["TotalPages"]); i++)
+                {
+                    if (Convert.ToInt32(ViewData["CurrentPage"]) == i)
+                    {
+                        if (i < 1)
+                        {
+                            continue;
+                        }
+                        <li class="active"><a href="javascript:void(0)">@i</a></li>
+                    }
+                    else
+                    {
+                        <li class=""><a href="javascript:void(0)" id="@i">@i</a></li> }
+                }
+            </ul>
+        </div>
+        <div id="tabs-post">
+            <div class="tabs-framed">
+                <ul class="tabs clearfix">
+                    <li class="active" id="tab-post"><a href="#tab-1" data-toggle="tab">I Posted</a></li>
+                    <li class="" id="tab-comment"><a href="#tab-2" data-toggle="tab">I Commented <span id="commentc"></span></a></li>
+                    <li class="" id="tab-likes"><a href="#tab-3" data-toggle="tab">I Liked <span id="likec"></span></a></li>
+                    <li class="" id="tab-views"><a href="#" data-toggle="tab">I Viewed</a></li>
+                    <li class="" id="tab-watch"><a href="#" data-toggle="tab">I am Watching</a></li>
+                    <li class="" id="tab-classifieds"><a href="#" data-toggle="tab">My Classifieds</a></li>
+                    <li class="" id="tab-questions"><a href="#" data-toggle="tab">My Questions</a></li>
+                </ul>
+            </div>
+            @if (Request.Browser.IsMobileDevice)
+            {
+                <small style="margin-left: 20px;">Scroll left to see more fields</small>
+            }
+
+            <div class="tab-content">
+                <!-- Tab 1 -->
+                <div class="tab-pane fade active in" id="tab-1">
+                    <div class="tab-body">
+                        <section class="invoice-financials">
+                            <div class="invoice-items table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th width="55%">Title</th>
+                                            <th></th>
+                                            <th id="date_id">Posted On<span> &#x25BC</span></th>
+                                            <th>Likes</th>
+                                            <th>Views</th>
+                                            <th>Comments</th>
+                                            <th>Watch</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr style="font-size: small">
+                                                <td><a href='@Url.Action("DisplayThread","Page", new{ threadId=@item.ThreadId})' target="_blank" style="float: left; color: cornflowerblue">@(item.Announcement ?? item.Title)</a></td>
+                                                <td>
+                                                    @{
+                                            var span = DateTime.Now.Subtract(@item.SubmittedOn).TotalMinutes;
+                                            if (span <= 15)
+                                            {
+                                                <a href="javascript:void(0)" style="color: cornflowerblue" id="delete_@item.ThreadId" onclick="deleteThread('@item.ThreadId')">Delete</a>
+                                            }
+                                                    }
+                                                </td>
+                                                <td>@item.SubmittedOn.ToShortDateString()</td>
+                                                <td>@item.Likes</td>
+                                                <td>@item.Views</td>
+                                                <td>@item.Responses</td>
+                                                <td>@item.Watch</td>
+                                            </tr>
+
+                                        }
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+
+                <input type="hidden" data-url="@Url.Action("GetLikedByThreadId","Page")" id="liked_by" />
+                <input type="hidden" data-url="@Url.Action("Delete","Page")" id="delete-thread" />
+
+
+                <input type="hidden" id="commentsurl" data-url='@Url.Action("GetCommentedPage","Account")' />
+                <div class="tab-pane fade" id="tab-2">
+                    <div class="tab-body">
+
+                    </div>
+                </div>
+                <input type="hidden" id="likesurl" data-url='@Url.Action("GetLikedPage","Account")' />
+                <div class="tab-pane fade" id="tab-3">
+                    <div class="tab-body">
+
+                    </div>
+                </div>
+                <input type="hidden" id="viewsurl" data-url='@Url.Action("GetViewedPage","Account")' />
+                <div class="tab-pane fade" id="tab-4">
+                    <div class="tab-body">
+
+                    </div>
+                </div>
+                <input type="hidden" id="watchurl" data-url='@Url.Action("GetWatchedPage","Account")' />
+                <div class="tab-pane fade" id="tab-5">
+                    <div class="tab-body">
+
+                    </div>
+                </div>
+                <input type="hidden" id="classifiedurl" data-url='@Url.Action("MyClassifieds", "Account")' />
+                <div class="tab-pane fade" id="tab-6">
+                    <div class="tab-body">
+
+                    </div>
+                </div>
+                <input type="hidden" id="questionurl" data-url='@Url.Action("MyQuestions", "Account")' />
+                <div class="tab-pane fade" id="tab-7">
+                    <div class="tab-body">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

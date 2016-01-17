@@ -1,0 +1,50 @@
+﻿@using System.Web.UI.WebControls
+<div id="threadAnnouncementGeneral" data-bind="fadeVisible:(isThread() == 'generalThread')">
+    <section>
+        <label class="input">
+            <label class="label">Title</label>
+            <input type="text" name="Title" id="title" value ="@ViewBag.Title" placeholder="@ViewBag.Title" maxlength="200" data-bind="value:title" required>
+        </label>
+    </section>
+    <section>
+        <h5>Thread About:</h5><small>Please select one of the tags from below</small>
+        <label class="label">
+            Content ( for images- you may use editor's insert/edit feature. As of now, we only support image urls. Direct upload
+            to our servers or any other image hosting provdiers are not available now.)
+        </label>
+        <div class="widget">
+            <div class="tagcloud base clearfix" data-bind="foreach: tagsArray">
+                <a data-bind="text:$data,css:'tagcloud base clearfix',click:function(){ $parent.populateTagField($data)}"></a>
+                <a href="javascript:void(0)" data-bind="click:$parent.removeTags,css:'base'">X</a>
+            </div>
+            <label class="input">
+                <label class="label">Tags ( select the tags from above or create your own )</label>
+                <label class="label">Your own tag ( if any ): <a href="javascript:void(0)" data-bind="click:createTags">Create</a></label>
+                <input type="text" data-bind="value:owntag" style="width:100%" />
+                <br />
+                <input type="text" id="tagsG" name="TagsGeneral" placeholder="@ViewBag.TagsG" value="@ViewBag.TagsG" data-bind="value:tagsG" style="width:100%">
+                <small><a href="javascript:void(0)" data-bind="click:resetTags">Reset tags</a></small>
+            </label>
+        </div>
+        <label class="textarea">
+            <textarea id="con" style="display: none">@ViewBag.Content</textarea>
+            <textarea class="mceEditor" id="content" rows="30" name="Content" placeholder="@ViewBag.Content" maxlength="7000" data-bind="value:content">@ViewBag.Content</textarea>
+        </label>
+    </section>
+
+        <br />
+        <section>
+            <div class="row">
+                <div class="col-md-7">
+                        <i></i> I accept the <a href="#">terms and conditions to post this thread.</a>.
+                   
+                </div>
+                <br />
+                <div class="col-md-12">
+                    <button class="btn btn-base btn-icon btn-icon-right btn-icon-go pull-right" type="submit">
+                        <span data-bind="click:validateGeneralThread">Add a Thread Now</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>

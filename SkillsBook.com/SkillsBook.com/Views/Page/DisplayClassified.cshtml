@@ -1,0 +1,229 @@
+﻿@using SkillsBook.Models.DAL
+@model SkillsBook.Models.Models.ClassifiedModel
+@{
+    ViewBag.Title = "DisplayClassifieds";
+    var classifiedType = @Model.ClassifiedCategory;
+    bool isHousing = "Housing".Equals(classifiedType);
+    bool isBuySell = "BuySell".Equals(classifiedType);
+    bool isJob = "Jobs".Equals(classifiedType);
+    string imagePath = Model.ClassifiedImageLoc;
+}
+
+
+<link href="~/css/invoice.css" rel="stylesheet" />
+<div class="pg-opt">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Classified</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="slice">
+    <div id="invoice" class="paid">
+        <div class="this-is">
+            <strong>Classified - @Model.ClassifiedCategory </strong>
+        </div>
+        <header id="header">
+            <div class="invoice-intro">
+                <h1>@Model.ClassifiedTitle</h1>
+                <p>Building a Better Tomorrow Through Your Destruction</p>
+            </div>
+
+            <dl class="invoice-meta">
+                <dt class="">PostedOn</dt>
+                <dd>@Model.PostedOn</dd>
+                <dt class="">LastUpdatedOn</dt>
+                <dd>@Model.LastUpdated</dd>
+                <dt class="">PostedBy</dt>
+                <dd>@Model.Username</dd>
+            </dl>
+        </header>
+
+        <section id="parties">
+            <div class="invoice-to">
+                <h2>Location:</h2>
+                <div id="hcard-Hiram-Roth" class="">
+                    <h5>@Model.City</h5>
+                    <h5>@Model.State</h5>
+                    <h5>@Model.Country</h5>
+                </div>
+            </div>
+
+            <div class="invoice-from">
+                <h2>Details:</h2>
+                <div id="hcard-Admiral-Valdore" class="">
+                    <h6>
+                        @if (isHousing)
+                        {
+                            @GetHousingName(Model.HousingType)
+                        }
+                        @if (isBuySell)
+                        {
+                            const string space = " ";
+                            const string dash = "-";
+                            @Model.BuySellItem @space @dash @space @Model.ClassifiedTitle
+                        }
+                    </h6>
+                    <h6 class="">@if (isJob){  <text>Price:</text> @Model.Price }</h6>
+                    <h6 class="">@Model.AdditionalInfo</h6>
+                    <h6 class="">@Model.JobDetails</h6>
+                    @if (imagePath != null)
+                    {
+                        var imgs = imagePath.Substring(0, imagePath.Length - 1);
+                        var imgArray = imgs.Split('@');
+                        var count = 1;
+                        string strUserAgentC = Request.UserAgent.ToString().ToLower();
+                        foreach (var img in imgArray)
+                        {
+                            <text>
+                                <h6><a href="javascript:void(0)" id="pic_@count" style="color: cornflowerblue" onclick="ShowImage(@count)">Picture @count (click to show and hide)</a></h6>
+                                @if (Request.Browser.IsMobileDevice || strUserAgentC.Contains("iphone") || strUserAgentC.Contains("android") || strUserAgentC.Contains("blackberry"))
+                                {
+                                    <img src='@Url.Content("~/Content/CI/" + img)' id="img_@count" style="width: 100%; height: auto; display: none" alt="" />
+                                }
+                                else
+                                {
+                                    <img src='@Url.Content("~/Content/CI/" + img)' id="img_@count" style="width: 200%; height: auto; display: none" alt="" />
+                                }
+                            </text>
+                                count++;
+                        }
+                    }
+                </div>
+            </div>
+
+            <div class="invoice-status">
+                <h3>Current Status</h3>
+                @if (Model.ClassifiedRadio == Constants.Available)
+                {
+                    <strong> <em>Available</em></strong>
+                }
+                else
+                {
+                    <strong> <em>@Constants.Looking</em></strong>
+                }
+            </div>
+
+        </section>
+        <section>
+            <h5>Contact @Model.Username:</h5>
+            <div id="validationmsg"></div>
+            <div class="form-body">
+                <input type="hidden" data-url='@Url.Action("SendClassifiedMail","Page")' id="sendEmailUrl" />
+                <form id="contactAdPoster" class="sky-form">
+                    <fieldset class="no-padding">
+                        <section>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="label">Email To:</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-mail-reply"></i>
+                                            <input type="email" name="emailClassified" placeholder="@Model.EmailAddress" value="@Model.EmailAddress" id="emailClassified" readonly="">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="label">Subject:</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-mail-reply"></i>
+                                            <input type="text" name="subjectClassified" placeholder="" value="" id="subjectClassified">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="label">Message</label>
+                                        <label class="textarea">
+                                            <textarea id="contentClassified" rows="5" name="ClassifiedMessage" placeholder="" maxlength="7000" required></textarea>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <button class="btn btn-base btn-icon btn-icon-right btn-icon-go pull-right" type="button">
+                                    <span onclick="Contact()" id="sendMsgBtn">Send Message</span>
+                                    <span id="sendMsgBtnH" style="display: none">Sending Message ..</span>
+
+                                </button>
+                            </div>
+
+                        </section>
+                    </fieldset>
+                </form>
+            </div>
+        </section>
+    </div>
+
+</section>
+@functions{
+    string GetHousingName(string housing)
+    {
+        if (housing.Equals("SharedAccomodation"))
+            return "Shared Accomodation";
+        if (housing.Equals("Apartment1B"))
+            return "1 Bedroom Apartment";
+        if (housing.Equals("Apartment2B"))
+            return "2 Bedroom Apartment";
+        if (housing.Equals("Apartment3B"))
+            return "3 Bedroom Apartment";
+        if (housing.Equals("Apartment4B"))
+            return "4 Bedroom Apartment";
+        if (housing.Equals("Apartment4+"))
+            return "4 Bedroom+ Apartment";
+        if (housing.Equals("Condomenium"))
+            return "Condomenium";
+        if (housing.Equals("SingleHouse"))
+            return "Single House";
+        return "Somethin else";
+    }
+
+}
+<script type="text/javascript">
+
+    function ShowImage(count) {
+        $("#img_" + count).slideToggle();
+    }
+
+    function Contact() {
+
+        var msg = $("#contentClassified").val();
+        var toEmail = $("#emailClassified").val();
+        var subject = $("#subjectClassified").val();
+        var url = $("#sendEmailUrl").data('url');
+        var sendBtn = $("#sendMsgBtn");
+        var sendBtnH = $("#sendMsgBtnH");
+
+        var fullUrl = url + "?emailTo=" + toEmail + "&subject=" + subject + "&message=" + encodeURIComponent(msg);
+        if (msg == "" || toEmail == "") {
+            $("#validationmsg").text("*All fields are required.").css('color', 'red');
+            return;
+        }
+
+        sendBtn.hide();
+        sendBtnH.show();
+
+         $.post(fullUrl, function (callback) {
+              if (callback.Result == "success") {
+                  $("#validationmsg").text(callback.Message).css('color', 'red');
+                  $("#subjectClassified,#contentClassified").val('');
+                  $("#sendMsgBtn").show();
+                  $("#sendMsgBtnH").hide();
+                  return;
+              }
+              else {
+                  $("#validationmsg").text(callback.Message).css('color', 'red');
+                  return;
+              }
+          });
+    }
+
+</script>

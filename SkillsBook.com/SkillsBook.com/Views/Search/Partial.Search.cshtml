@@ -1,0 +1,40 @@
+﻿@model IEnumerable<SkillsBook.Models.Models.ThreadModel>
+<script src='@Url.Content("~/Scripts/app/main.js")'></script>
+<script src='@Url.Content("~/Scripts/app/search.js")'></script>
+
+<div class="wp-section">
+    <div class="container">
+        <div class="row">
+            <div id="resultpage">
+                <div class="col-lg-9">
+                  
+                    <ul class="pagination pagination-style-2">
+                        <li>Search Results For:<h5>@ViewData["SearchTerm"]</h5></li>
+                        <li>Total Results Found :<h5>@ViewData["TotalCount"]</h5></li>
+                        @for (var i = 1; i <= Convert.ToInt32(ViewData["TotalPages"]); i++)
+                        {
+                            if (Convert.ToInt32(ViewData["CurrentPage"]) == i)
+                            {
+                                if (i < 1)
+                                {
+                                    continue;
+                                }
+                                <li class="active"><a href="javascript:void(0)">@i</a></li>
+                            }
+                            else
+                            {
+                                <li><a href="javascript:void(0)" id="@i">@i</a></li>
+                            }
+                        }
+                    </ul>
+                  
+                    @Html.Partial("Partial.ThreadModelResults")
+                </div>
+
+                <div class="col-md-3">
+                    @Html.Partial("Partial.Accordians")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

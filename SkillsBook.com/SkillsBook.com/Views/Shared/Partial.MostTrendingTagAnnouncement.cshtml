@@ -1,0 +1,13 @@
+﻿<div class="mb-20">
+    @if (ViewBag.TrendingTagsAnnouncement != null)
+    {
+        foreach (var item in ViewBag.TrendingTagsAnnouncement)
+        {
+            <text>
+                <div class="wp-block article grid bb">
+                    <a href='@Url.Action("DisplayPageByTags","Page",new {tagType="TagsAnnouncement",cat=@item})' style="color: #1e90ff"><strong>@item</strong></a>
+                </div>
+            </text>
+        }
+    }
+</div>

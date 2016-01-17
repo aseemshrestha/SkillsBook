@@ -1,0 +1,38 @@
+﻿<div id="threadAnnouncement" data-bind="fadeVisible:(isThread() == 'announcement')">
+    <section>
+        <h5>Announcement About:</h5><small>Please select one of the tags from below</small>
+        <div class="widget">
+            <div class="tagcloud base clearfix" data-bind="foreach: tagsArray">
+                <a data-bind="text:$data,css:'tagcloud base clearfix',click:function(){ $parent.populateTagField($data)}"></a>
+                <a href="javascript:void(0)" data-bind="click:$parent.removeTags,css:'base'">X</a>
+            </div>
+            <label class="input">
+                <label class="label">Tags ( select the tags from above or create your own )</label>
+                <label class="label">Your own tag ( if any ) You may want to enter some custom tags and hit Create: <a href="javascript:void(0)" data-bind="click:createTags">Create</a></label>
+                <input type="text" data-bind="value:owntag" style="width:100%" />
+                <br />
+                <input type="text" name="TagsAnnouncement" id="tagsA" placeholder="@ViewBag.TagsA" value="@ViewBag.TagsA" data-bind=" value:tagsA,valueUpdate:'afterkeydown',limitCharacters: maxCharacter()" style="width:100%">
+                <small><a href="javascript:void(0)" data-bind="click:resetTags">Reset tags</a></small>
+            </label>
+        </div>
+        <label class="label">Announcement - <span data-bind="text: count"></span> characters</label>
+        <label class="textarea">
+            <textarea rows="3" class="mceNoEditor"  id="announcement"name="Announcement" placeholder="@ViewBag.Announcement" data-bind="value: announcement, valueUpdate: 'afterkeydown', limitCharacters: maxCharacter()">@ViewBag.Announcement</textarea>
+        </label>
+    </section>
+   
+
+    <section>
+        <div class="row">
+            <div class="col-md-8">
+                    <i></i> I accept the <a href="#">terms and conditions to post thhis announcement.</a>.
+            </div>
+            <br />
+            <div class="col-md-12">
+                <button class="btn btn-base btn-icon btn-icon-right btn-icon-go pull-right" type="submit">
+                    <span data-bind="click:validateAddThread">Announce now</span>
+                </button>
+            </div>
+        </div>
+    </section>
+</div>

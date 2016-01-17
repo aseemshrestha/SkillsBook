@@ -1,0 +1,83 @@
+﻿<div class="wp-example">
+    <div class="panel-group no-margin" id="accordionFive">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background-color: #3498db !important;">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordionFive" href="#collapse3a" style="text-decoration:none;color:#ffffff">
+                        Trending Tags - General
+                    </a>
+                </h4>
+            </div>
+            <div id="collapse3a" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <p>
+                                @Html.Partial("Partial.MostTrendingTagGeneral")
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background-color: #3498db !important;">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordionFive" href="#collapse3b" style="text-decoration:none;color:#ffffff">
+                        Trending Tags - Announcement
+                    </a>
+                </h4>
+            </div>
+            <div id="collapse3b" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <p>
+                        @Html.Partial("Partial.MostTrendingTagAnnouncement")
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background-color: #3498db !important;">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordionFive" href="#collapse3c" style="text-decoration: none; color: #ffffff">
+                        Most Viewed
+                    </a>
+                </h4>
+            </div>
+            <div id="collapse3c" class="panel-collapse collapse">
+                <div class="panel-body">
+                    @Html.Partial("Partial.MostViewed")
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background-color: #3498db !important; ">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordionFive" href="#collapse3d" style="text-decoration: none; color: #ffffff">
+                        Most Responded
+                    </a>
+                </h4>
+            </div>
+            <div id="collapse3d" class="panel-collapse collapse">
+                <div class="panel-body">
+                    @Html.Partial("Partial.MostResponded")
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default" style="text-decoration:none">
+            <div class="panel-heading" style="background-color: #3498db !important;">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordionFive" href="#collapse3e" style="text-decoration: none; color: #ffffff">
+                        Most Liked
+                    </a>
+                </h4>
+            </div>
+            <div id="collapse3e" class="panel-collapse collapse">
+                <div class="panel-body">
+                    @Html.Partial("Partial.MostVoted")
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

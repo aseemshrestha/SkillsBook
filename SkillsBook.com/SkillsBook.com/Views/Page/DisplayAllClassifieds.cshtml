@@ -1,0 +1,79 @@
+﻿@model IEnumerable<SkillsBook.Models.Models.ClassifiedModel>
+@using SkillsBook.Models.DAL
+
+    <section class="slice bg-white bb">
+        <div class="wp-section shop">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8" id="dc">
+                        <div class="well">
+                            <h4>Search Results For @ViewBag.Cat </h4>
+                        </div>
+                        <div class="row" style="float:right">
+                            <div class="col-md-12">
+                                <ul class="pagination pagination-sm">
+                                    @for (var i = 1; i <= Convert.ToInt32(ViewData["TotalPages"]); i++)
+                                    {
+                                        if (Convert.ToInt32(ViewData["CurrentPage"]) == i)
+                                        {
+                                            if (i < 1)
+                                            {
+                                                continue;
+                                            }
+                                            <li class="active"><a href="javascript:void(0)">@i</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li><a href="javascript:void(0)" id="@i" onclick="paginateClassified(@i,'@ViewBag.Cat')">@i</a></li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <br/><br />
+                        @if (Request.Browser.IsMobileDevice || Request.UserAgent.Contains("iphone") || Request.UserAgent.Contains("android") ||
+                             Request.UserAgent.Contains("blackberry"))
+                        {
+                            <small>Scroll left more for details</small>
+                        }
+                        <div class="table-responsive">
+                            <table class="table table-cart table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th>Last Updated<span> &#x25BC</span></th>
+                                        <th>Title</th>
+                                        <th>Available Or Wanted</th>
+                                        <th>Current Status</th>
+                                        <th>Location</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.LastUpdated.ToShortDateString()<br />
+                                            </td>
+                                            <td><a href='@Url.Action("DisplayClassified", "Page",new{classifiedId = @item.ClassifiedId})' style="color:cornflowerblue"><strong>@item.ClassifiedTitle</strong></a></td>
+                                            <td>@item.ClassifiedRadio.ToUpperInvariant()</td>
+                                            <td>@(item.CurrentStatus == 1 ? "Still Active" : "Taken")</td>
+                                            <td>@item.City @item.State</td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    @Html.Partial("Partial.ClassifiedFilter")
+                </div>
+            </div>
+        </div>
+    </section>
+
+<script type="text/javascript">
+    function paginateClassified(index, cat) {
+        window.location.href = '@Url.Action("DisplayAllClassifieds","Page")?type=' + cat + "&page=" + index;
+    }
+
+</script>

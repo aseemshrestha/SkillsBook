@@ -1,0 +1,31 @@
+﻿<div class="mb-20">
+    @if (ViewBag.MostLiked != null)
+    {
+
+        foreach (var item in ViewBag.MostLiked)
+        {
+            <text>
+                <div class="wp-block article grid bb">
+
+                    <span class="article-category">By: @item.Username on @item.SubmittedOn</span>
+
+                    <h3 class="title">
+                        <a href='@Url.Action("DisplayThread","Page", new{threadId =@item.ThreadId})' hidefocus="true">
+                            @if (item.Title != null)
+                            {
+                                @(item.Title.Length > 50 ? item.Title.Substring(0, 50) + "..." : item.Title)
+                            }
+                            else
+                            {
+                                @item.Announcement
+                            }
+                        </a>
+                    </h3>
+                    <p>
+                        @item.Likes <small>likes</small> | <small>Type : </small> @item.ThreadRadio
+                    </p>
+                </div>
+            </text>
+        }
+    }
+</div>

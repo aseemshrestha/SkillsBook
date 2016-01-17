@@ -1,0 +1,144 @@
+﻿@using System.Activities.Statements
+@using Elmah.ContentSyndication
+@using SkillsBook.com.LolNQuote
+<!-- MAIN CONTENT -->
+
+<script type="text/javascript" src='@Url.Content("~/Scripts/tinymce/tinymce.min.js")'></script>
+<script type="text/javascript" src='@Url.Content("~/Scripts/app/tinymce_Init.js")'></script>
+@{
+    bool isUserLoggedIn = false;
+    string username = String.Empty;
+    string email = String.Empty;
+}
+<div class="pg-opt">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Ask a Question - Find awesome answers</h2>
+            </div>
+            <div class="col-md-6">
+                <ol class="breadcrumb">
+                    @*check if the user is logged in , if not throw this message*@
+                    @if (Request.Cookies["LogOnCookie"] == null)
+                    {
+                        <li><a href="javascript:void(0)">Please Note - Your account will be automatically created.</a></li>
+                    }
+                    else
+                    {
+                        <li><a href="javascript:void(0)">Welcome @Request.Cookies["LogOnCookie"]["username"]</a></li>
+                        isUserLoggedIn = true;
+                        username = @Request.Cookies["LogOnCookie"]["username"];
+                        email = @Request.Cookies["LogOnCookie"]["email"];
+                    }
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="slice bg-white">
+    <div class="wp-section">
+        <div class="container">
+            <div class="row mb-40">
+                <div class="col-lg-10 col-md-6">
+                    <div class="wp-block default user-form">
+                        <div class="form-header base" style="background-color: cornflowerblue !important">
+                            <h2 style="color: #ffffff">Asking a question ( All fields are mandatory )</h2>
+                           
+                        </div>
+                       
+                        <div class="form-body">
+                            <div id="messageDiv" style="color:red;font-size: large">@TempData["Error"]</div><br />
+                            
+                            <form action='@Url.Action("AskQuestion","Question")' id="frmQuestion" class="sky-form" method="POST">
+                                @Html.AntiForgeryToken()
+                                <fieldset class="no-padding">
+                                    <section class="no-margin">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @if (isUserLoggedIn)
+                                                    {
+                                                        <text>
+                                                            <input type="hidden" id="uname" name="Username" value="@username" placeholder="@username" readonly>
+                                                            <input type="hidden" id="email" name="Email" value="@email" placeholder="@email" readonly>
+                                                        </text>
+                                                    }
+                                                    @if (!isUserLoggedIn)
+                                                    {
+                                                        <text>
+                                                            <label class="label">* Username ( If you don't have username, go ahead and create from here )<br />
+                                                            <small style="color:red">Please check email after you post the question. Your temporary password will be sent to your email.</small></label>
+                                                            <label class="input">
+                                                                <i class="icon-append fa fa-user"></i>
+                                                                <input type="text" id="uname" name="Username" value="@TempData["Username"]" placeholder="@ViewBag.Username">
+                                                            </label>
+                                                        </text>
+
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @if (!isUserLoggedIn)
+                                                    {
+                                                        <text>
+                                                            <label class="label">* E-mail</label>
+                                                            <label class="input">
+                                                                <i class="icon-append fa fa-envelope-o"></i>
+                                                                <input type="email" name="Email" id="email" value="@TempData["Email"]" placeholder="@ViewBag.Email">
+                                                            </label>
+                                                        </text>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </fieldset>
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h5>* Question About:</h5><small>Please select one of the category from below.</small><br />
+                                            <div class="form-group">
+                                                <select id="category" class="form-control" name="category">
+                                                    <option value="">Choose One</option>
+                                                    @foreach (var item in @ViewBag.Categories)
+                                                    {
+                                                        <option value="@item">@item</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <p></p>
+                                            <input type="hidden" id="catques" name="Category">
+
+                                            <label class="label">
+                                                <strong>
+                                                    Please make sure, you ask a question. Not just a statement. You statement must terminate with a question mark (?)
+                                                </strong>
+                                            </label>
+                                            <label class="label">Your Question (Max length -1000)</label>
+                                            <label class="textarea">
+                                                <textarea class="mceEditorQ" id="contentq" rows="3" name="question" placeholder="@TempData["Question"]" maxlength="1000">@TempData["Question"]</textarea>
+                                            </label>
+                                        </div>
+
+                                    </div>
+
+                                </fieldset>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-base btn-icon btn-icon-right btn-fly pull-right">
+                                            <span id="askBtn" onclick="Question.onSubmitForm()">ASK</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="form-footer base" style="background-color: cornflowerblue !important">
+                            <p>@OtherQuotes.QuoteQuestionSubmit</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

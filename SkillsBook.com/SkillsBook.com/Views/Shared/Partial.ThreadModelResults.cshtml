@@ -1,0 +1,165 @@
+﻿@if (Model != null)
+{
+    string who = null;
+    bool isMobile = false;
+    string strUserAgent = Request.UserAgent.ToString().ToLower();
+    if (Request.Browser.IsMobileDevice == true || strUserAgent.Contains("iphone") ||
+        strUserAgent.Contains("blackberry") || strUserAgent.Contains("android")
+        )
+    {
+        isMobile = true;
+    }
+
+    var rnd = new Random();
+    if(!isMobile)
+     {
+         <small style="color: coral"><strong>Click on numbers to find out Whos</strong></small>
+     }
+
+    foreach (var item in Model)
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="wp-block article list">
+                    @if (!isMobile)
+                    {
+                        <div class="article-image">
+                            <div class="row">
+                                
+                                <div class="col-md-3">
+                                    <div class="milestone-counter">
+                                        <div id="likefig_@item.ThreadId" class="milestone-count c-base" style="font-size: 12px;cursor:pointer" data-bind="event:{ click: function(){likedByPopUp('@item.ThreadId')}}">@item.Likes</div>
+                                        <span>Likes</span><br />
+                                    </div>
+                                    <input type="hidden" data-url="@Url.Action("GetLikedByThreadId","Page")" id="liked-by" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="milestone-counter">
+                                        <div class="milestone-count c-base" style="font-size: 12px; cursor: pointer" data-bind="event:{ click: function(){commentedByPopUp('@item.ThreadId')}}">@item.Responses</div>
+                                        <span>Comments</span>
+                                    </div>
+                                    <input type="hidden" data-url="@Url.Action("GetCommentedByThreadId", "Page")" id="commented-by" />
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="milestone-counter">
+                                        <div class="milestone-count c-base" style="font-size: 12px; cursor: pointer" data-bind="event:{ click: function(){viewedByPopUp('@item.ThreadId')}}">@item.Views </div>
+                                        <span>Views</span>
+                                    </div>
+                                    <input type="hidden" data-url="@Url.Action("GetViewedByThreadId", "Page")" id="viewed-by" />
+                                </div>
+                                
+                            </div>
+                            <div id="close_@item.ThreadId" style="display: none">&nbsp;<a href="javascript:void(0)" data-bind="click:function(){hidelikedByPopUp('@item.ThreadId')}"> Close(X) </a></div>
+                            <div id="show_@item.ThreadId" class="alert alert-warning fade in" style="display:none;width:80%;border-radius: 15px;background-color: deepskyblue!important;max-height: 250px;overflow-y: auto;overflow-x: hidden">
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <span class="milestone-counter">
+                                        <span>Being Watched By:</span> <span id="watchfig_@item.ThreadId" class="milestone-count c-base" style="font-size: 12px;cursor: pointer" data-bind="event:{ click: function(){watchedByPopUp('@item.ThreadId')}}">@item.Watch</span>
+                                    </span>
+                                </div>
+                                
+                                <input type="hidden" data-url="@Url.Action("GetWatchedByThreadId", "Page")" id="watched-by" />
+                            </div>
+                         
+                            <!--
+                                <a class="btn btn-base btn-icon fa-smile-o" href="#" style="background-color: darkseagreen !important;border-color: #ffffff"><span>LOL</span></a>
+                                -->
+                        </div>
+                    }
+
+                    <div class="wp-block-body">
+                        @if (item.Content != null)
+                        {
+                            if (item.ThreadRadio == "generalThread")
+                            {
+                                <a href='@Url.Action("DisplayThread","Page",new{threadId=@item.ThreadId})'><h5 style="color: #373a3e"> @item.Title</h5> </a>
+
+                            }
+                        }
+                        else
+                        {
+                            <text>
+                                <a href='@Url.Action("DisplayThread","Page",new{threadId=@item.ThreadId})'>
+                                    <small>Announcement:</small><h2 style="color:orangered">@item.Announcement</h2>
+                                </a>
+                            </text>
+
+                        }
+
+                        Posted by <a href="#"><strong>@item.Username</strong></a> on @item.SubmittedOn.ToShortDateString()
+                        <br />
+                        Last Updated on : @item.LastUpdated.ToShortDateString()
+                        <div class="wp-block-footer">
+                            <div class="cell width-80">
+                                <div class="meta-info">
+                                    <div class="meta-tags">
+                                        <!--<i class="fa fa-tags"></i>-->
+                                        <strong>Tags: </strong>
+                                        @if (item.ThreadRadio == "announcement")
+                                        {
+                                            if (item.TagsAnnouncement.IndexOf(',') > 0)
+                                            {
+                                                var tags = item.TagsAnnouncement.Split(',');
+                                                foreach (var tag in tags)
+                                                {
+                                                    <a href='@Url.Action("DisplayPageByTags","Page",new {tagType="TagsAnnouncement",cat=@item.TagsAnnouncement})' style="font-size: medium">tag</a>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <a href='@Url.Action("DisplayPageByTags","Page",new {tagType="TagsAnnouncement",cat=@item.TagsAnnouncement})' style="font-size: medium">@item.TagsAnnouncement</a>
+                                            }
+                                        }
+                                        @if (item.ThreadRadio == "generalThread")
+                                        {
+                                            if (item.TagsGeneral.IndexOf(',') > 0)
+                                            {
+                                                var tags = item.TagsGeneral.Split(',');
+                                                foreach (var tag in tags)
+                                                {
+                                                    <a href='@Url.Action("DisplayPageByTags","Page",new {tagType="TagsGeneral",cat=@tag})' style="font-size: medium">@tag</a>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <a href='@Url.Action("DisplayPageByTags","Page",new {tagType="TagsGeneral",cat=@item.TagsGeneral})' style="font-size: medium">@item.TagsGeneral</a>
+                                            }
+                                        }
+
+                                    </div>
+                                    <br />
+                                    <ul class="col-md-12">
+                                        <li style="font-size:small;margin-left:-14px;">
+                                            <strong><a class="btn btn-base btn-icon fa-thumbs-up" href="javascript:void(0)" id="like_@item.ThreadId" data-liked="false" data-bind="event:{ mouseover: function(){showLoginMsg('@item.ThreadId')},mouseout: function(){hideLoginMsg('@item.ThreadId')} },click:function(){updateLikes('@item.ThreadId')}"><span>LIKE</span></a></strong>
+                                            <strong><a class="btn btn-alt btn-icon fa-eye" href="javascript:void(0)" data-watched="false" id="watch_@item.ThreadId" data-bind="event:{ mouseover: function(){showLoginMsg('@item.ThreadId')},mouseout: function(){hideLoginMsg('@item.ThreadId')} },click:function(){updateWatch('@item.ThreadId')}"><span>WATCH</span> </a></strong>
+                                            <span class="btn btn-light btn-icon fa-thumbs-up" id="likeh_@item.ThreadId" style="display: none;font-size: small"><span>LIKED</span></span>
+                                            <span class="btn btn-light btn-icon fa-eye" id="watchh_@item.ThreadId" style="display: none;font-size: small"><span>WATCHING</span></span>
+                                            @if (isMobile)
+                                            {
+                                                <text>
+                                                    <br /><br />
+                                                    <strong>Views: @item.Views</strong> |
+                                                    <strong id="likefig_@item.ThreadId">Likes: @item.Likes</strong> |
+                                                    <strong>Comments: @item.Responses</strong>
+                                                </text>
+                                            }
+
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="alert alert-warning" id="loginMsg1_@item.ThreadId" style="display: none">
+                            <strong>Not Logged in!</strong> You have to login for this.
+                        </div>
+                     </div>
+                  </div>
+                <!--</div>-->
+                <hr />
+            </div>
+        </div>
+    }
+}

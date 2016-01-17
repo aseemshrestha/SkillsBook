@@ -1,0 +1,131 @@
+﻿
+<!-- MAIN CONTENT -->
+@model SkillsBook.Models.ViewModel.AddThreadViewModel
+<script type="text/javascript" src='@Url.Content("~/Scripts/tinymce/tinymce.min.js")'></script>
+<script type="text/javascript" src='@Url.Content("~/Scripts/app/tinymce_Init.js")'></script>
+@{
+    bool isUserLoggedIn = false;
+    string username = String.Empty;
+    string email = String.Empty;
+}
+<div class="pg-opt">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Adding a new Thread</h2>
+            </div>
+            <div class="col-md-6">
+                <ol class="breadcrumb">
+                    @*check if the user is logged in , if not throw this message*@
+                    @if (Request.Cookies["LogOnCookie"] == null) {
+                        <li><a href="javascript:void(0)">Please Note - Your account will be automatically created.</a></li>
+                    }
+                    else{
+                        <li><a href="javascript:void(0)">Welcome @Request.Cookies["LogOnCookie"]["username"]</a></li>
+                        isUserLoggedIn = true;
+                        username = @Request.Cookies["LogOnCookie"]["username"];
+                        email = @Request.Cookies["LogOnCookie"]["email"];
+                    }
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="slice bg-white">
+    <div class="wp-section">
+        <div class="container">
+            <div class="row mb-40">
+                <div class="col-lg-10 col-md-6">
+                    <div class="wp-block default user-form">
+                        <div class="form-header base">
+                            <h2>Adding a Thread</h2>
+                        </div>
+                        <div class="form-body">
+                            <span data-bind="html: validationErrors" style="color:#FF0000"></span>
+                            <span style="color:#FF0000">@ViewBag.Error</span> 
+                            <form action="/Page/AddThreadPost" id="frmThread" class="sky-form" method="POST" enctype="multipart/form-data">
+                                @Html.AntiForgeryToken()
+                                <fieldset class="no-padding">
+                                    <section class="no-margin">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="label">Username</label>
+                                                    <label class="input">
+                                                        <i class="icon-append fa fa-user"></i>
+                                                        @if (isUserLoggedIn)
+                                                        {
+                                                            <text>
+                                                                <input type="text" id="uname" name="Username" value="@username" placeholder="@username" readonly>
+                                                            </text>
+                                                        }
+
+                                                        @if (!isUserLoggedIn)
+                                                        {
+                                                            <text>
+                                                                <input type="text" id="uname" name="Username" value="@ViewBag.Username" placeholder="@ViewBag.Username" data-bind="value:username">
+                                                            </text>
+                                                        }
+
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="label">E-mail</label>
+                                                    <label class="input">
+                                                        <i class="icon-append fa fa-envelope-o"></i>
+                                                        @if (isUserLoggedIn)
+                                                        {
+                                                            <text>
+                                                                <input type="text" id="email" name="Email" value="@email" placeholder="@email" readonly>
+                                                            </text>
+                                                        }
+                                                        @if (!isUserLoggedIn)
+                                                        {
+                                                            <text>
+                                                                <input type="text" name="Email" id="email" value="@ViewBag.Email" placeholder="@ViewBag.Email" data-bind="value:email">
+                                                            </text>
+                                                        }
+                                                    </label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </section>
+                                </fieldset>
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="col-md-8">
+
+                                            <label class="radio">
+                                                <input type="radio" name="ThreadRadio" id="announcement" value="announcement" data-bind="checked: isThread">
+                                                <i></i> Announcement
+                                            </label>
+
+                                            <label class="radio">
+                                                <input type="radio" name="ThreadRadio" id="generalThread" value="generalThread" data-bind="checked: isThread">
+                                                <i></i> General Thread.
+                                            </label>
+                                            <label class="radio">
+                                                <input type="radio" name="Classified" id="classified" value="classified" data-bind="checked: isThread">
+                                                <i></i> Classifieds
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                </fieldset>
+                                @Html.Partial("Partial.Announcement")
+                                @Html.Partial("Partial.GeneralThread")
+                                @Html.Partial("Partial.Classifieds")
+                            </form>
+                        </div>
+                        <div class="form-footer base">
+                            <p>Quality is not an act, it is a habit.- <em>Aristotle</em></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,107 @@
+﻿<div id="threadClassified" data-bind="fadeVisible:(isThread() == 'classified')">
+    <section>
+        <h5>Classified About:</h5><small>Please select one of the classified from below</small>
+        <div class="widget">
+            <div class="">
+                <div class="" role="form">
+                    <select name="ClassifiedCategory" class="form-control" data-bind="options: availableOptions,
+                       value: classifiedChosen,
+                       optionsCaption: 'Select'" style="height:40px;"></select>
+                    <br />
+                    <label class="input">
+                        <label class="label">Title</label>
+                        <input type="text" id="title_classified" name="ClassifiedTitle" placeholder="" value="" style="width:100%" maxlength="500">
+                    </label>
+
+                    <br />
+                    <section id="housing" style="display:none">
+                        <select name="HousingType" id="housing-select" class="form-control" style="height:40px;">
+                            <option value="">Select housing type</option>
+                            <option value="SharedAccomodation">SharedAccomodation</option>
+                            <option value="Apartment1B">Apartment - 1 Bedroom</option>
+                            <option value="Apartment2B">Apartment - 2 Bedroom</option>
+                            <option value="Apartment3B">Apartment - 3 Bedroom</option>
+                            <option value="Apartment4B">Apartment - 4 Bedroom</option>
+                            <option value="Apartment4+">Apartment - 4+ Bedroom</option>
+                            <option value="Condomenium">Condomenium</option>
+                            <option value="SingleHouse">SingleHouse</option>
+                        </select>
+                    </section>
+                    <br />
+                    <section id="buysell" style="display:none">
+                        <select name="BuySellItem" id="buysell-select" class="form-control" style="height:40px;">
+                            <option value="">I want to buy/sell</option>
+                            <option value="Cars">Cars</option>
+                            <option value="Bikes">Bikes</option>
+                            <option value="Books">Books</option>
+                            <option value="CellPhones">CellPhones</option>
+                            <option value="Computers">Computers</option>
+                            <option value="Jewellery">Jewellery</option>
+                            <option value="MusicalInstruments">Musical Instruments</option>
+                            <option value="Furniture">Furniture</option>
+                            <option value="Somethingelse">Something Else</option>
+                        </select>
+                    </section>
+                    <br />
+                    <section id="common" style="display:none">
+                        <label class="input">
+                            <label class="label">Upload Image (allowed files gif | jpeg | png | jpeg Max - 5 files)</label>
+                            <input type="file" name="ClassifiedImageLoc" class="multi maxsize-1000000" accept="gif|jpg|png|jpeg" maxlength="5" />
+                        </label>
+                        <br />
+                        <label class="input">
+                            <label class="label">Price ( should be numeric)</label>
+                            <input type="number" id="price" name="Price" placeholder="" value="" style="width:100%">
+                        </label>
+                        <br />
+                        <label class="label">Additional Info- <span data-bind="text: count"></span> characters</label>
+                        <label class="textarea">
+                            <textarea rows="3" class="mceNoEditor" id="additionalInfo" name="AdditionalInfo" placeholder="" maxlength="2000"></textarea>
+                        </label>
+                    </section>
+
+                    <section id="loc" style="display:none">
+                        <label class="input">
+                            <label class="label">Location - City</label>
+                            <input type="text" id="location_city" name="City" placeholder="" value="" style="width:100%" maxlength="200"><br />
+                            <label class="label">State/Province/Zone</label>
+                            <input type="text" id="location_state" name="State" placeholder="" value="" style="width:100%" maxlength="50"><br />
+                            <label class="label">Country</label>
+                            <input type="text" id="location_country" name="Country" placeholder="" value="" style="width:100%" maxlength="50">
+                        </label>
+                    </section>
+                    
+                    <br />
+                    <section id="job" style="display:none">
+                        <label class="label">Job Details</label>
+                        <label class="textarea">
+                            <textarea rows="3" class="mceNoEditor" id="jobdetails" name="JobDetails" placeholder=""></textarea>
+                        </label>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="row">
+            <div class="col-md-8">
+                <br />
+                <label class="radio">
+                    <input type="radio" name="ClassifiedRadio" id="available" value="available" checked>
+                    <i></i> Available - <small>I have these items available</small>
+                </label>
+                <label class="radio">
+                    <input type="radio" name="ClassifiedRadio" id="wanted" value="wanted">
+                    <i></i> Wanted - <small>I am looking for these items</small>
+                </label><br />
+                <i></i> I accept the <a href="#">terms and conditions to post this classified.</a>.
+            </div>
+            <div class="col-md-12">
+                <button class="btn btn-base btn-icon btn-icon-right btn-icon-go pull-right" type="submit">
+                    <span data-bind="click:validateClassifiedThread">Submit</span>
+                </button>
+            </div>
+        </div>
+    </section>
+</div>
+

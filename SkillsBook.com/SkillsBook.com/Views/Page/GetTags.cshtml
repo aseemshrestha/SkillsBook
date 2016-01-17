@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "GetTags";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="slice page-header base">
+    <div class="w-section inverse">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="text-center">
+                        <h2>Tags</h2>
+                        <p>
+                            Currently active tags as of @DateTime.Now
+                        </p>
+                        <span class="clearfix"></span>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<section class="slice bg-white">
+    <div class="wp-section">
+        <div class="container">
+            <h5 class="article-label text-caps blue-line" style="height:30px;padding-left:10px;padding-top:5px;">Trending Tags - General</h5>
+            <hr />
+            <div class="row">
+                @if (ViewBag.TagsGeneral != null)
+                {
+                    foreach (var item in ViewBag.TagsGeneral)
+                     {
+                         <div class="col-lg-4 col-md-6">
+                             <div class="aside-feature">
+                                 <div class="row">
+                                     <div class="col-md-9">
+                                         <h4><a href='@Url.Action("DisplayPageByTags", "Page", new {tagType = "TagsGeneral", cat = @item})' style="color: cornflowerblue">@item</a></h4>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+
+                     }
+                }
+
+            </div>
+            <hr />
+            <h5 class="article-label text-caps blue-line" style="height:30px;padding-left:10px;padding-top:5px;">Trending Tags - Announcement</h5>
+            <hr />
+            <div class="row">
+                @if (ViewBag.TagsAnnouncement != null)
+                {
+                    foreach (var item in ViewBag.TagsAnnouncement)
+                     {
+
+                         <div class="col-lg-4 col-md-6">
+                             <div class="aside-feature">
+                                 <div class="row">
+
+                                     <div class="col-md-9">
+                                         <h4><a href='@Url.Action("DisplayPageByTags", "Page", new {tagType = "TagsAnnouncement", cat = @item})' style="color: cornflowerblue">@item</a></h4>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+
+                     }
+                }
+            </div>
+        </div>
+    </div>
+
+</section>

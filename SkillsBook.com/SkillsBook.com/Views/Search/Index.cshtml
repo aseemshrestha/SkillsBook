@@ -1,0 +1,52 @@
+﻿@using System.ComponentModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- MAIN CONTENT -->
+<div class="pg-opt">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Search</h2>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<section class="slice bg-white">
+    <div class="container">
+        <div class="wp-block default user-form">
+            <div class="form-body">
+                <fieldset class="no-padding">
+                    <section>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <label for="">Search By Username/Title/Announcement</label>
+                                <div class="input-group">
+                                    <input type="text" name="Username" id="term_search" placeholder="Username/Title/Announcement" class="form-control left">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-base" type="button" id="btnGo1">Go</button>
+                                    </span>
+                                     
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </section>
+                </fieldset>
+                <input type ="hidden" data-url="@Url.Action("Search","Search")" id="urlSearch1"/>
+                <input type="hidden" data-ajaxloader='@Url.Content("~/images/slider/fs-spinner.gif")' id="ajaxloader" />
+            </div>
+        </div>
+        <section>
+            <div id="searchResults">
+            </div>
+        </section>
+    </div>
+</section>
+
+

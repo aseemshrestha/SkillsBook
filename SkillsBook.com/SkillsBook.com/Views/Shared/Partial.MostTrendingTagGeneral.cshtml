@@ -1,0 +1,11 @@
+﻿<div class="mb-20">
+    @if (ViewBag.TrendingTagsGeneral != null){
+        foreach (var item in ViewBag.TrendingTagsGeneral){
+            <text>
+                <div class="wp-block article grid bb title">
+                   <a href='@Url.Action("DisplayPageByTags","Page",new {tagType="TagsGeneral",cat=@item})'><strong>@item</strong></a>
+                </div>
+            </text>
+        }
+    }
+</div>

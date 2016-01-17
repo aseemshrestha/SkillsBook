@@ -1,0 +1,59 @@
+﻿ <!-- MAIN CONTENT -->
+@using Elmah.ContentSyndication
+@model IEnumerable<SkillsBook.Models.Models.ThreadModel>
+@using SkillsBook.Models.DAL
+@{
+    string who = null;
+}
+@if (Request.Cookies["LogOnCookie"] != null)
+{
+    who = Request.Cookies["LogOnCookie"]["username"];
+}
+<div class="pg-opt">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6"><h2>Showing Threads By: @ViewBag.TagCategory - @ViewBag.TagType</h2></div>
+            <div class="col-md-6">
+                <ul class="breadcrumb">
+                    @if (who == null){
+                        <li><a href="javascript:void(0)">Welcome and thank you for visiting. </a></li>
+                        <br />
+                    }
+                    else{
+                        <li><a href="javascript:void(0)">Welcome @who</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="slice bg-white">
+    <div class="wp-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9">
+                    @Html.Partial("Partial.ThreadModelResults")
+                    <input type="hidden" value="@ViewBag.TagType" id="tagType" />
+                    <input type="hidden" value="@ViewBag.TagCategory" id="tagCategory" />
+                    <a href="javascript:void(0)" id="reqUrl" data-url='@Url.Action("GetMorePostByCategory", "Page")'></a>
+                    <input type="hidden" id="_psize" value="@Constants.BlocksizeInitialLoad" />
+                    <input type="hidden" id="_psizeConst" value="@Constants.BlocksizeInitialLoad" />
+                   
+                    <div id="morethreads"></div>
+                    @if (ViewBag.Count >= @Constants.BlocksizeInitialLoad)
+                    {
+                        <button type="submit" class="btn btn-lg btn-block-bm btn-alt btn-icon btn-icon-right fa fa-angle-down mt-10" data-bind="click:loadMoreCategoryThreads">
+                            <span id="moreThread">Load More</span>
+                        </button>
+                    }
+                </div>
+                <div class="col-md-3">
+                    @Html.Partial("Partial.Accordians")
+                </div>
+            </div>
+        </div>
+        <input type="hidden" data-url='@Url.Action("Watch","Page")' id="watchUrl" />
+        <input type="hidden" data-url='@Url.Action("Like","Page")' id="likeUrl" />
+    </div>
+</section>

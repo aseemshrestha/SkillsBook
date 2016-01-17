@@ -1,0 +1,199 @@
+﻿@using System.Net.Mime
+@using Elmah.ContentSyndication
+@model SkillsBook.Models.Models.ThreadModel
+@using SkillsBook.Models.DAL;
+@{
+    string who = null;
+}
+
+@if (Request.Cookies["LogOnCookie"] != null)
+{
+    who = Request.Cookies["LogOnCookie"]["username"];
+}
+<section class="slice bg-white">
+    <div class="wp-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="wp-block article post">
+
+                                <div class="figure">
+                                    <h1>
+                                        @(Model.ThreadRadio == "generalThread" ? Model.Title : Model.Announcement)
+                                    </h1>
+
+                                    <div class="inline-tags mb-20">
+                                        @if (Model.ThreadRadio == "announcement")
+                                        {
+                                            if (Model.TagsAnnouncement.IndexOf(',') > 0)
+                                            {
+                                                var tags = Model.TagsAnnouncement.Split(',');
+                                                foreach (var tag in tags)
+                                                {
+                                                    <a href="javascript:void(0)" class='btn btn-xs btn-base'>@tag</a>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <a href="javascript:void(0)" class='btn btn-xs btn-base'>@Model.TagsAnnouncement</a>
+                                            }
+                                        }
+                                        @if (Model.ThreadRadio == "generalThread")
+                                        {
+                                            if (Model.TagsGeneral.IndexOf(',') > 0)
+                                            {
+                                                var tags = Model.TagsGeneral.Split(',');
+                                                foreach (var tag in tags)
+                                                {
+                                                    <a href="javascript:void(0)" class='btn btn-xs btn-base'>@tag</a>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <a href="javascript:void(0)" class='btn btn-xs btn-base'>@Model.TagsGeneral</a>
+                                            }
+                                        }
+                                    </div>
+                                    @if (Model.ThreadRadio == "generalThread")
+                                    {
+                                        @Html.Raw(Model.Content)
+                                    }
+                                    <!-- Meta info -->
+                                    <div class="meta-info">
+                                        <span>
+                                            <strong>Published by:</strong> @Model.Username
+                                        </span>
+                                        <span>
+                                            <strong>Date:</strong>
+                                            @Model.SubmittedOn
+                                        </span>
+                                    </div>
+                                    @*Facebook.LikeButton(showFaces: false)*@
+                                    <strong><a class="btn btn-base btn-icon fa-thumbs-up" href="javascript:void(0)" id="like_@Model.ThreadId" data-liked="false" data-bind="event:{ mouseover: function(){showLoginMsg('@Model.ThreadId')},mouseout: function(){hideLoginMsg('@Model.ThreadId')} },click:function(){updateLikes('@Model.ThreadId')}"><span style="font-size: small">LIKE</span></a></strong>
+                                    <strong><a class="btn btn-alt btn-icon fa-eye" href="javascript:void(0)" data-watched="false" id="watch_@Model.ThreadId" data-bind="event:{ mouseover: function(){showLoginMsg('@Model.ThreadId')},mouseout: function(){hideLoginMsg('@Model.ThreadId')} },click:function(){updateWatch('@Model.ThreadId')}"><span style="font-size: small">WATCH</span> </a></strong>
+                                    <span class="btn-xs btn-light btn-icon fa-thumbs-up" id="likeh_@Model.ThreadId" style="display: none;font-size: small"><span>LIKED</span></span>
+                                    <span class="btn-xs btn-light btn-icon fa-eye" id="watchh_@Model.ThreadId" style="display: none;font-size: small"><span>WATCHING</span></span>
+
+                                    <input type="hidden" value="@Model.Username" id="uname" />
+                                    <input type ="hidden" data-url='@Url.Action("Watch","Page")' id="watchUrl"/>
+                                    <input type="hidden" data-url='@Url.Action("Like","Page")' id="likeUrl" />
+                                    <a href="javascript:void" id="morePosts" data-url='@Url.Action("GetMorePostByUser","Page")'></a>
+                                    <a href="javascript:void" id="showmore" data-url='@Url.Action("DisplayThread", "Page")'></a>
+                                    @*
+                                    @Html.Partial("Partial.SocialButtons",Model)
+                                    *@
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a title="Click to open modal form example" class="btn btn-dark btn-icon btn-comment pull-left" href="#commentModal" data-toggle="modal">
+                                <span>Throw Your Comment</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="post-item style2 no-padding">
+                        <div class="post-content-wr">
+                            <div class="post-content clearfix">
+                                <div class="post-comments"><span><strong id="totalComments">@Model.Responses </strong></span>comments</div>
+                            </div>
+                            <ol>
+                                @foreach (var item in ViewBag.Comments)
+                                {
+                                    <li class="comment">
+                                        <div class="comment-body bb">
+                                            <div class="comment-text">
+                                                <div class="comment-author clearfix">
+                                                    <a style="outline: none;" hidefocus="true" class="link-author" href="#">@Html.Raw(item.CommentedBy)</a>
+                                                    <span class="comment-meta"><span class="comment-date">@item.CommentedOn</span> </span>
+                                                </div>
+                                                <div class="comment-entry">
+                                                    @Html.Raw(item.Comment)
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </li>
+                                }
+                            </ol>
+                        </div>
+                    </div>
+                    @if (Enumerable.Count(ViewBag.Comments) > 10)
+                    {
+                        <text>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <a title="Click to open modal form example" class="btn btn-dark btn-icon btn-comment pull-left" href="#commentModal" data-toggle="modal">
+                                        <span>Throw Your Comment</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </text>
+                    }
+
+                    @Html.Partial("Partial.Comment")
+
+
+                </div>
+                <div class="col-md-4">
+                    <div class="widget-recent mb-20">
+                        <div class="section-title-wr">
+                            <h3 class="section-title left"><span>Other Threads BY @Model.Username ( @ViewBag.TotalPostByUser )</span></h3>
+                        </div>
+                        <div class="inner">
+                            
+                            @foreach (var item in ViewBag.Posts)
+                            {
+                              
+                             
+                                <text>
+                                    <ul>
+                                        <li class="clearfix">
+                                           
+                                            <a href="@Url.Action("DisplayThread","Page",new {threadId = @item.ThreadId})" hidefocus="true">
+                                                @if (item.Title != null)
+                                                {
+                                                    @(item.Title.Length > 50 ? item.Title.Substring(0, 50) + "..." : item.Title)
+                                                }
+                                                else
+                                                {
+                                                    @item.Announcement
+                                                }
+                                            </a><br />
+                                            <span><small>@item.SubmittedOn</small></span>
+                                            <span class="comment-author">@item.Views <small> views </small>| @item.Likes <small> likes </small> | @item.Responses <small> comments </small></span>
+
+                                        </li>
+                                    </ul>
+                                </text>
+                               
+                            }
+                            <input type ="hidden" id="psize" value="@Constants.BlocksizeUserSpecificThreads"/>
+                            <input type ="hidden" id="totalPost" value="@ViewBag.TotalPostByUser"/>
+                            <input type="hidden" id="psizeconst" value="@Constants.BlocksizeUserSpecificThreads" />
+
+                            <div id="moreposts">
+                            </div>
+                          
+                            @if (ViewBag.TotalPostByUser >= Constants.BlocksizeUserSpecificThreads)
+                            {
+                                <button type="button" class="btn btn-lg btn-block-bm btn-alt btn-icon fa fa-chevron-down mt-10" data-bind="click:loadMorePostByUser">
+                                    <span id="moreBtn">More</span>
+                                </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<script type="text/javascript" src='@Url.Content("~/Scripts/tinymce/tinymce.min.js")'></script>
+<script type="text/javascript" src='@Url.Content("~/Scripts/app/tinymce_Init.js")'></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.6.0/moment.min.js"></script>

@@ -1,0 +1,99 @@
+﻿@using SkillsBook.Models.DAL
+
+  
+
+<div class="col-md-4">
+    <div class="panel panel-default panel-sidebar-1">
+        <div class="panel-heading">
+            <h2>Filter @ViewBag.Cat Items</h2>
+        </div>
+        <div class="panel-body bb">
+            <form role="form" class="form-search" id="classiform">
+                <label for="">Title</label>
+                <div class="input-group">
+                    <input type="text" class="form-control left" id="cstitle" placeholder="title" style="width: 310px;">
+                </div>
+                <br />
+                <label for="">City</label>
+                <div class="input-group">
+                    <input type="text" class="form-control left" id="csloc" placeholder="city" style="width: 310px;">
+                </div>
+                <br />
+
+                <table class="table table-cart-subtotal">
+                    <tbody>
+                        <tr>
+                            <th>Available or Wanted</th>
+                            <td class="text-right"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="no-padding">
+                                <div class="form-group">
+                                    <select id="cso" class="form-control">
+                                        <option value="ALL">Show All</option>
+                                        <option value="@Constants.Available">Show All Available Items Only</option>
+                                        <option value="@Constants.Wanted">Show All Wanted Items Only</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="panel-body">
+                    <h5>Free Quote</h5>
+                    <p>
+                        <em> Building a better tomorrow through your destruction.</em>
+                    </p>
+                </div>
+            </form>
+            <div class="row">
+                <div class="col-md-12">
+                    <input type="button" class="form-control left" id="cstitle" value="SEARCH" style="width: 310px;" onclick="SearchClassified()">
+                </div>
+            </div><br />
+            <div class="row">
+                <div class="col-md-12">
+                    <input type="button" class="form-control left" id="cstitle" value="RESET" style="width: 310px;" onclick="Reset()">
+                </div>
+            </div>
+            <input type="hidden" data-url='@Url.Action("SearchClassifieds", "Search")' id="csurl" />
+            <input type="hidden" id="cstype" value='@ViewBag.Cat' />
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function SearchClassified() {
+        var title = document.getElementById('cstitle');
+        var loc = document.getElementById('csloc');
+        var o = document.getElementById('cso');
+        var cat = document.getElementById('cstype');
+        var url = '@Url.Action("SearchClassifieds", "Search")';
+        var urlFull = url + "?category=" + cat.value + "&title=" + title.value + "&location=" + loc.value + "&option=" + o.value;
+        var xmlhttp;
+        if (window.XMLHttpRequest) {
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+                if (xmlhttp.status == 200) {
+                    document.getElementById("dc").innerHTML = xmlhttp.responseText;
+                } else if (xmlhttp.status == 400) {
+                    alert('There was an error 400');
+                } else {
+                    alert('something else other than 200 was returned');
+                }
+            }
+        }
+        xmlhttp.open("GET", urlFull, true);
+        xmlhttp.send();
+    }
+
+    function Reset() {
+        location.reload();
+    }
+
+</script>
+    

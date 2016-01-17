@@ -1,0 +1,113 @@
+﻿@model IEnumerable<SkillsBook.Models.Models.ClassifiedModel>
+<script src='@Url.Content("~/Scripts/app/myaccount.js")'></script>
+<input type="hidden" value="@ViewData["TotalCount"]" id="totalcountViews" />
+<div id="pagination">
+    <ul class="pagination pagination-sm">
+        @for (var i = 1; i <= Convert.ToInt32(ViewData["TotalPages"]); i++)
+        {
+            if (Convert.ToInt32(ViewData["CurrentPage"]) == i)
+            {
+                if (i < 1)
+                {
+                    continue;
+                }
+                <li class="active"><a href="javascript:void(0)">@i</a></li>
+            }
+            else
+            {
+                <li class=""><a href="javascript:void(0)" id="@i">@i</a></li> }
+        }
+    </ul>
+</div>
+<div id="tabs-post">
+    <div class="tabs-framed">
+        <ul class="tabs clearfix">
+            <li class="" id="tab-post"><a href="#tab-1" data-toggle="tab">I Posted</a></li>
+            <li class="" id="tab-comment"><a href="#tab-2" data-toggle="tab">I Commented</a></li>
+            <li class="" id="tab-likes"><a href="#tab-3" data-toggle="tab">I Liked</a></li>
+            <li  id="tab-views"><a href="#tab-4" data-toggle="tab">I Viewed <span id="lblcv"></span></a></li>
+            <li class="" id="tab-watch"><a href="#" data-toggle="tab">I am Watching</a></li>
+            <li class="active" id="tab-classifieds"><a href="#" data-toggle="tab">My Classifieds</a></li>
+            <li class="" id="tab-questions"><a href="#" data-toggle="tab">My Questions</a></li>
+        </ul>
+    </div>
+    @if (Request.Browser.IsMobileDevice)
+    {
+        <small style="margin-left: 20px;">Scroll left to see more fields</small>
+    }
+
+    <div class="tab-content">
+        <!-- Tab 1 -->
+        <div class="tab-pane fade active in" id="tab-4">
+            <div class="tab-body">
+                <section class="invoice-financials">
+                    <div class="invoice-items table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th id="date_id">LastUpdated<span> &#x25BC</span></th>
+                                    <th>Category</th>
+                                    <th>Available or Wanted</th>
+                                    <th>Status</th>
+                                   
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr style="font-size: small">
+                                        <td><a href='@Url.Action("DisplayClassified", "Page",new{classifiedId = @item.ClassifiedId})' style="float: left;color: cornflowerblue">@item.ClassifiedTitle</a></td>
+                                        <td>@item.LastUpdated.ToShortDateString()</td>
+                                        <td>@item.ClassifiedCategory</td>
+                                        <td>@item.ClassifiedRadio</td>
+                                        <td><a href="javascript:void(0)" style="color: cornflowerblue" onclick="switchStatus('@item.ClassifiedId','@item.CurrentStatus')">Switch Status</a>&nbsp; @(item.CurrentStatus==1 ? "OPEN":"CLOSED")</td>
+                                     
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <input type="hidden" id="statusswitchurl" data-url='@Url.Action("SwitchClassifiedStatus", "Account")' />
+        <input type="hidden" id="commentsurl" data-url='@Url.Action("GetCommentedPage","Account")' />
+        <div class="tab-pane fade" id="tab-2">
+            <div class="tab-body">
+
+            </div>
+        </div>
+        <input type="hidden" id="likesurl" data-url='@Url.Action("GetLikedPage","Account")' />
+        <div class="tab-pane fade" id="tab-3">
+            <div class="tab-body">
+
+            </div>
+        </div>
+        <input type="hidden" id="viewsurl" data-url='@Url.Action("GetViewedPage","Account")' />
+        <div class="tab-pane fade" id="tab-4">
+            <div class="tab-body">
+
+            </div>
+        </div>
+        <input type="hidden" id="watchurl" data-url='@Url.Action("GetWatchedPage","Account")' />
+
+        <div class="tab-pane fade" id="tab-5">
+            <div class="tab-body">
+
+            </div>
+        </div>
+        <input type="hidden" id="classifiedurl" data-url='@Url.Action("MyClassifieds", "Account")' />
+        <div class="tab-pane fade" id="tab-6">
+            <div class="tab-body">
+
+            </div>
+        </div>
+        <input type="hidden" id="questionurl" data-url='@Url.Action("MyQuestions", "Account")' />
+        <div class="tab-pane fade" id="tab-7">
+            <div class="tab-body">
+
+            </div>
+        </div>
+    </div>
+</div>

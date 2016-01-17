@@ -1,0 +1,225 @@
+﻿@using System.Diagnostics
+@using System.Web.UI.WebControls
+@using SkillsBook.Models.DAL;
+@{
+    string who = null;
+    var isMobile = false;
+    Debug.Assert(Request.UserAgent != null, "Request.UserAgent != null");
+    var strUserAgent = Request.UserAgent.ToLower();
+    if (Request.Browser.IsMobileDevice == true || strUserAgent.Contains("iphone") || strUserAgent.Contains("blackberry") || strUserAgent.Contains("android"))
+    {
+        isMobile = true;
+    }
+
+}
+@if (Request.Cookies["LogOnCookie"] != null)
+{
+    who = Request.Cookies["LogOnCookie"]["username"];
+
+}
+
+<div class="pg-opt">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-12">
+                <ul class="breadcrumb">
+                    @if (who == null)
+                    {
+                        <li><a href="javascript:void(0)"><br /><h6>Random Quote</h6> <em>@Session["QuoteTop"] - @Session["AuthorTop"]</em></a></li>
+                    }
+                    else
+                    {
+                        <li><a href="javascript:void(0)">Welcome @who</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="slice bg-white">
+    <div class="wp-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+<!--
+    <h5 class="article-label text-caps" style="height:30px;padding-left:10px;padding-top:5px;background-color: dodgerblue">
+        <span style="color:#ffffff">Recent Threads @ViewBag.Time</span>
+    </h5>
+    -->
+                   
+                    <a href="javascript:void(0)" id="reqUrl" data-url='@Url.Action("GetMorePost","Page")'></a>
+                    <input type="hidden" id="_psize" value="@Constants.BlocksizeInitialLoad" />
+                    <input type="hidden" id="_psizeConst" value="@Constants.BlocksizeInitialLoad" />
+                   
+                    <div class="wp-block-body">
+                        <h5 class="article-label text-caps red" style="height:30px;padding-left:10px;padding-top:5px;">Classifieds</h5>
+                        <a href='@Url.Action("AddThread","Page")' style="color:crimson"><strong> Add More Classifieds </strong></a>
+                        <hr />
+                        <h5 style="color: cornflowerblue">Rooms/Apt</h5>
+                        <hr />
+                        @if (ViewBag.Classifieds != null)
+                        {
+                            const string dash = "-";
+                            const string space = " ";
+                            foreach (var item in ViewBag.Classifieds)
+                            {
+                                if ("Housing".Equals(item.ClassifiedCategory) && Constants.Available.Equals(item.ClassifiedRadio))
+                                {
+                                    @item.LastUpdated.ToString("dd")
+                                    @dash
+                                    @item.LastUpdated.ToString("MMM")
+                                    @dash
+                                    @item.LastUpdated.ToString("yy")
+                                    @space
+                                    <br />
+                                    <a href='@Url.Action("DisplayClassified", "Page",new{classifiedId = @item.ClassifiedId})' style="color: #333399; font-size: medium">
+                                        @(item.ClassifiedTitle.ToString().Length >= 80 ? item.ClassifiedTitle.ToString().Substring(0, 80) + "..." : item.ClassifiedTitle)
+                                    </a>
+                                    <hr />
+                                }
+                            }
+                            foreach (var item in ViewBag.Classifieds)
+                            {
+                                if ("Housing".Equals(item.ClassifiedCategory) && Constants.Wanted.Equals(item.ClassifiedRadio))
+                                {
+                                    @item.LastUpdated.ToString("dd")
+                                    @dash
+                                    @item.LastUpdated.ToString("MMM")
+                                    @dash
+                                    @item.LastUpdated.ToString("yy")
+                                    @space<br />
+                                    <a href='@Url.Action("DisplayClassified", "Page",new{classifiedId = @item.ClassifiedId})' style="color:#333399;font-size: medium">
+                                        @(item.ClassifiedTitle.ToString().Length >= 80 ? item.ClassifiedTitle.ToString().Substring(0, 80) + "..." : item.ClassifiedTitle)
+                                    </a>
+                                    <hr />
+                                }
+                            }
+                            <a class="btn btn-danger btn-icon fa-long-arrow-right" href='@Url.Action("DisplayAllClassifieds","Page" ,new {type="Housing"})'><span>SHOW ME MORE</span> </a>
+                            <hr />
+                            <h5 style="color: cornflowerblue">Local Jobs</h5>
+                            <hr />
+                            foreach (var item in ViewBag.Classifieds)
+                            {
+
+                                if ("Jobs".Equals(item.ClassifiedCategory) && Constants.Available.Equals(item.ClassifiedRadio))
+                                {
+                                    @item.LastUpdated.ToString("dd")
+                                    @dash
+                                    @item.LastUpdated.ToString("MMM")
+                                    @dash
+                                    @item.LastUpdated.ToString("yy")
+                                    @space<br />
+                                    <a href='@Url.Action("DisplayClassified", "Page",new{classifiedId = @item.ClassifiedId})' style="color: #333399; font-size: medium">
+                                        @(item.ClassifiedTitle.ToString().Length >= 80 ? item.ClassifiedTitle.ToString().Substring(0, 80) + ".." : item.ClassifiedTitle)
+                                    </a>
+                                    <hr />
+                                }
+                                if ("Jobs".Equals(item.ClassifiedCategory) && Constants.Wanted.Equals(item.ClassifiedRadio))
+                                {
+                                    @item.LastUpdated.ToString("dd")
+                                    @dash
+                                    @item.LastUpdated.ToString("MMM")
+                                    @dash
+                                    @item.LastUpdated.ToString("yy")
+                                    @space<br />
+                                    <a href='@Url.Action("DisplayClassified", "Page",new{classifiedId = @item.ClassifiedId})' style="color: #333399; font-size: medium">
+                                        @(item.ClassifiedTitle.ToString().Length >= 80 ? item.ClassifiedTitle.ToString().Substring(0, 80) + "..." : item.ClassifiedTitle)
+                                    </a>
+
+                                    <br />
+                                }
+
+                            }
+                            <a class="btn btn-danger btn-icon fa-long-arrow-right" href='@Url.Action("DisplayAllClassifieds","Page",new {type="Jobs"})'><span>SHOW ME MORE</span></a>
+                            <hr />
+                            <h5 style="color: cornflowerblue">Buy/Sell</h5>
+                            <hr />
+                            foreach (var item in ViewBag.Classifieds)
+                            {
+                                if ("BuySell".Equals(item.ClassifiedCategory) && Constants.Available.Equals(item.ClassifiedRadio))
+                                {
+                                    @item.LastUpdated.ToString("dd")
+                                    @dash
+                                    @item.LastUpdated.ToString("MMM")
+                                    @dash
+                                    @item.LastUpdated.ToString("yy")
+                                    @space<br />
+                                    <a href='@Url.Action("DisplayClassified", "Page",new{classifiedId = @item.ClassifiedId})' style="color: #333399; font-size: medium">
+                                        @(item.ClassifiedTitle.ToString().Length >= 80 ? item.ClassifiedTitle.ToString().Substring(0, 80) + "..." : item.ClassifiedTitle)
+                                    </a>
+                                    <hr />
+                                }
+                                if ("BuySell".Equals(item.ClassifiedCategory) && Constants.Wanted.Equals(item.ClassifiedRadio))
+                                {
+                                    @item.LastUpdated.ToString("dd")
+                                    @dash
+                                    @item.LastUpdated.ToString("MMM")
+                                    @dash
+                                    @item.LastUpdated.ToString("yy")
+                                    @space
+                                    <a href='@Url.Action("DisplayClassified", "Page",new{classifiedId = @item.ClassifiedId})' style="color: #333399; font-size: medium">
+                                        @(item.ClassifiedTitle.ToString().Length >= 80 ? item.ClassifiedTitle.ToString().Substring(0, 80) + "..." : item.ClassifiedTitle)
+                                    </a>
+                                    <hr />
+                                }
+                            }
+                            <a class=" btn btn-danger btn-icon fa-long-arrow-right" href='@Url.Action("DisplayAllClassifieds","Page",new {type="BuySell"})'><span>SHOW ME MORE</span></a>
+
+                        }
+                    </div>
+
+                </div>
+                @if (isMobile)
+                {  <br /><br />  }
+
+                <div class="col-md-6">
+                    <div class="wp-block-body">
+                        <h5 class="article-label text-caps" style="height: 30px; padding-left: 10px; padding-top: 5px; background-color: #fb8a2e;color: #ffffff">Quote Of the Day</h5>
+                        <hr />
+                        <p style="font-size: medium">
+                            <span class="primary-letter">@Session["Quote"].ToString()[0]</span>@Session["Quote"].ToString().Substring(1)
+                            <br />-<small>@Session["Author"]</small>
+                        </p>
+                    </div>
+                    <h2 class="section-title-wr">Recent Threads</h2>
+
+                    @Html.Partial("Partial.ThreadModelResults")
+                    <div id="morethreads">
+                    </div>
+                    <button type="submit" class="btn btn-lg btn-block-bm btn-alt btn-icon btn-icon-right fa fa-angle-down mt-10" data-bind="click:loadMoreThreads">
+                        <span id="moreThread">Load More</span>
+                    </button>
+                    <br />
+
+
+                </div>
+                <div class="col-md-3">
+                    <div class="wp-block-body">
+                        <h5 class="article-label text-caps green" style="height:30px;padding-left:10px;padding-top:5px;">Recent Questions</h5>
+                        <a href='@Url.Action("Index","Question")' style="color:crimson"><strong> Ask Question</strong></a>
+                        <hr />
+                        @foreach (var item in ViewBag.RecentQuestions)
+                        {
+                            @item.Category<br />
+                            <a href='@Url.Action("Answer","Question",new {questionId=@item.QuestionId})' style="color: #136ad5; font-size: medium">
+                               <strong>@Html.Raw(item.Question)</strong>
+                           </a>
+                            <span class="post-author">By: @item.Username | Answers: @item.TotalAnswers &nbsp;&nbsp;&nbsp;</span><br />
+                            <a href='@Url.Action("Answer","Question",new {questionId=@item.QuestionId})' style="color: #136ad5; font-size: medium">
+                                 Answer Now 
+                            </a>
+                            <hr />
+                        }
+                        <a class="btn btn-danger" href='@Url.Action("QuestionsOnly","Question")'>More Questions And Answers</a>
+                        <hr />
+                    </div>
+                   @Html.Partial("Partial.Accordians")
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

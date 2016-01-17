@@ -1,0 +1,164 @@
+﻿@using SkillsBook.Models.DAL
+@using SkillsBook.com.LolNQuote
+@model IEnumerable<SkillsBook.Models.Models.QuestionModel>
+
+<!-- MAIN CONTENT -->
+<div class="pg-opt">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Questions - Let's answer them</h2>
+                <div style="float:right">
+                    <h6>Random Quote</h6> <em> @OtherQuotes.QuoteQuestionAnswer</em>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="slice bg-white">
+    <div class="wp-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <ul class="list-listings-2">
+                        <li class="featured">
+                            <h5 style="color:red">@TempData["Invalid"]</h5>
+                            <div class="listing-header bg-base">Question</div>
+                            @foreach (var item in Model)
+                            {
+                                <div class="cell">
+                                    <div class="listing-body clearfix">
+                                        <form action='@Url.Action("AnswerNow","Question")' method="POST" id="frmanswer">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="questionId" value="@item.QuestionId" />
+                                            <h3><a href="#">@Html.Raw(item.Question)</a></h3>
+                                            <section>
+                                                <label class="label" style="color: maroon"> Your Answer </label>
+                                                @if (Request.Browser.IsMobileDevice || Request.UserAgent.Contains("iphone") || Request.UserAgent.Contains("android"))
+                                                {
+                                                    <label class="textarea">
+                                                        &nbsp;&nbsp;&nbsp;<textarea rows="3" id="answer" name="answer" placeholder="your answer"
+                                                                                    maxlength="1000" style="width: 300px;"></textarea>
+                                                    </label>
+                                                }
+                                                else
+                                                {
+                                                    <label class="textarea">
+                                                        &nbsp;<textarea rows="3" id="answer" name="answer" placeholder="your answer"
+                                                                        maxlength="1000" style="width: 700px;"></textarea>
+                                                    </label>
+                                                }
+                                            </section>
+                                            <br />
+                                            <input type="button" class="btn btn-base btn-icon btn-icon-right btn-fly pull-right" value="Submit" onclick="Question.onSubmitAnswer()">
+                                           
+                                            
+
+                                        </form>
+                                    </div>
+                                    <div class="listing-footer">
+                                        <ul class="aux-info">
+                                            <li><i class="fa fa-calendar"></i><strong>Asked On:</strong> @item.AskedOn.ToShortDateString()</li>
+                                            <li><i class="fa fa-user"></i><strong>By:</strong>@item.Username</li>
+                                            <li><i class="fa fa-globe"></i><strong>Category:</strong> @item.Category</li>
+                                            <li></li>
+                                        </ul>
+
+                                    </div>
+                                </div>
+
+
+
+                            <li>
+                                <div class="wp-block-body">
+                                    <h5 class="article-label text-caps green" style="height:40px;padding-left:10px;padding-top:15px;">Answers </h5>
+                                </div>
+                            </li>
+
+                                foreach (var ans in item.Answers)
+                                {
+
+                                    <li class="">
+                                        <div class="cell">
+                                            <div class="listing-body clearfix">
+                                                @item.Category
+                                                <p style="font-size: medium"><a href="javascript:void(0)">@ans.Answer</a></p>
+                                                <br />
+                                                @foreach (var res in item.AnswerResponse)
+                                                {
+                                                    if (res.RatedBy == "jhallu" || res.RatedBy == "dalle")
+                                                    {
+                                                        <h1>hello</h1>
+                                                    }
+                                                }
+                                                <span class="btn btn-xs btn-danger btn-icon btn-icon-right" id="btnUseful_@ans.AnswerId" onclick="Question.rateAnswer('@ans.AnswerId','@Constants.Useful')">
+                                                    Useful
+                                                </span>
+
+                                                <span class="btn btn-xs btn-b-light btn-icon btn-icon-right" id="btnUsefulh_@ans.AnswerId" style="display:none">
+                                                    Useful
+                                                </span>
+
+                                                <span class="btn btn-xs btn-danger btn-icon btn-icon-right" id="btnSw_@ans.AnswerId" onclick="Question.rateAnswer('@ans.AnswerId', '@Constants.Somewhat') ">
+                                                    Somewhat
+                                                </span>
+
+                                                <span class="btn btn-xs btn-b-light btn-icon btn-icon-right" id="btnSwh_@ans.AnswerId" style="display:none">
+                                                    Somewhat
+                                                </span>
+
+                                                <a class="btn btn-xs btn-danger btn-icon btn-icon-right" id="btnNu_@ans.AnswerId" onclick="Question.rateAnswer('@ans.AnswerId','@Constants.NotUseful')">
+                                                    <span>Not Useful</span>
+                                                </a>
+
+                                                <a class="btn btn-xs btn-b-light btn-icon btn-icon-right" id="btnNuh_@ans.AnswerId" style="display: none">
+                                                    <span>Not Useful</span>
+                                                </a>
+                                            </div>
+                                            <div class="listing-footer">
+                                                <ul class="aux-info">
+                                                    <li><i class="fa fa-calendar"></i><strong>AnswerOn:</strong> @ans.AnsweredOn.ToShortDateString()</li>
+                                                    <li><i class="fa fa-user"></i><strong>By:</strong>@ans.AnsweredBy</li>
+                                                    <li><i class="fa fa-heart-o"></i><strong>Useful:</strong><span id="uy_@ans.AnswerId">@ans.UsefulYes</span></li>
+                                                    <li><i class="fa fa-qq"></i><strong>Somewhat:</strong><span id="usw_@ans.AnswerId"> @ans.UserfulSomeWhat</span></li>
+                                                    <li><i class="fa fa-remove"></i><strong>No Useful:</strong><span id="un_@ans.AnswerId">@ans.UsefulNo</span></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+                            }
+
+                        </ul>
+
+                        <br />
+                    </div>
+                    <input type="hidden" data-url='@Url.Action("RateAnswer","Question")' id="ra" />
+                    <div class="col-md-4">
+                        <div class="wp-block-body">
+                            <h5 class="article-label text-caps green" style="height:30px;padding-left:10px;padding-top:5px;">Recent Questions</h5>
+                            <hr />
+                            <a href='@Url.Action("Index","Question")' style="color:crimson"><strong> Ask Question</strong></a>
+                            <hr />
+                            @foreach (var item in ViewBag.RecentQues)
+                            {
+
+                                <a href='@Url.Action("Answer","Question",new {questionId=@item.QuestionId,size=25})' style="color: #136ad5; font-size: medium">
+                                    <strong>@Html.Raw(item.Question)</strong>
+                                </a>
+
+                                <span class="post-author">By: @item.Username</span><text>&nbsp;&nbsp;</text>
+                                <a href='@Url.Action("Answer","Question",new {questionId=@item.QuestionId, size=25})' style="color: #136ad5; font-size: medium"> Answer Now </a>
+                                <hr />
+
+                            }
+
+                            <a class="btn btn-danger" href='@Url.Action("QuestionsOnly","Question")'>More Questions And Answers</a>
+                            <hr />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+

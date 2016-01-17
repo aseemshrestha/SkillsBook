@@ -1,0 +1,80 @@
+﻿@model SkillsBook.Models.Models.UserModel
+<div class="col-md-6 col-sm-6">
+    <div class="wp-block default user-form">
+        <div class="form-header base">
+            <h2>Login</h2>
+        </div>
+        <div class="form-body">
+            <form class="sky-form" id="frmLogOn" method="POST" action='@Url.Action("LogOn","Account")'>
+                <span style="color: red">@ViewBag.MessageLogOn</span>
+                @Html.AntiForgeryToken()
+                <fieldset class="no-padding">
+                    <section class="no-margin">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label class="label">UsernameOrE-mail</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-envelope-o"></i>
+                                            <input type="text" placeholder="" name="emailOrUsername">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="label">Password</label>
+                                    <label class="input">
+                                        <i class="icon-append fa fa-lock"></i>
+                                        <input type="password" placeholder="" name="password">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </fieldset>
+
+                <fieldset>
+                    <section>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-base btn-icon btn-icon-right btn-icon-go pull-right">
+                                    <span data-bind="click:LogOn">Sign In</span>
+                                </button><br />
+                                <p>Forgot your password? <a href="javascript:void(0)"></a></p>
+                                <p style="color: red;display: none" id="mess">Email has been sent to your inbox. Please check your inbox.</p>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="label">Email</label>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-lock"></i>
+                                                <input type="text" placeholder="" name="unameEmail" id="unameEmail">
+                                            </label><br />
+                                            <button type="button" class="btn btn-danger btn-icon btn-icon-right btn-icon-go pull-right" id="fpbtn">
+                                                <span>Submit</span>
+                                            </button><br />
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" data-url='@Url.Action("ForgotPass","Account")' id="rp"/>
+                            </div>
+                        </div>
+                    </section>
+                </fieldset>
+            </form>
+        </div>
+<!--
+    <div class="form-footer base">
+        <a href="javascript:void(0)">Login With Facebook</a>
+    </div><br />
+    <div class="form-footer base">
+        <a href="javascript:void(0)">Login With Gmail</a>
+
+    </div>
+    -->
+    </div>
+</div>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0"?>
+<QuestionCategories>
+  <CategoriesList>
+    <Category>Business and Finance</Category>
+    <Category>Cars and Vehicles</Category>
+    <Category>Entertainment</Category>
+    <Category>Food and Cooking</Category>
+    <Category>Heath and Fitness</Category>
+    <Category>Hobbies</Category>
+    <Category>Housing</Category>
+    <Category>Humour</Category>
+    <Category>Immigration and Legal Issues</Category>
+    <Category>Jobs and Education</Category>
+    <Category>Love and Relationships</Category>
+    <Category>Shopping</Category>
+    <Category>Sports</Category>
+    <Category>Technology</Category>
+    <Category>Uncategorized</Category>
+  </CategoriesList>
+</QuestionCategories>

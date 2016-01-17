@@ -1,0 +1,88 @@
+﻿@model SkillsBook.Models.Models.UserModel
+<div class="col-md-6 col-sm-6">
+    <div class="wp-block default user-form">
+        <div class="form-header base-alt">
+            <h2>Create your own account</h2>
+        </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span data-bind="html: validationErrors" style="color:#FF0000"></span>
+        <span style="color: red">&nbsp;&nbsp;&nbsp;&nbsp;@ViewBag.Message</span>
+        <div class="form-body">
+            <form class="sky-form" id="frmRegister" method="POST" action='@Url.Action("SignUpPost","Account")'>
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                
+                <fieldset class="no-padding">
+                    <section class="no-margin">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label class="label">Username</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-user"></i>
+                                            <input data-bind="value:username" id="uname" type="text" placeholder="" name="Username">
+                                            <span style="color: red">@Html.ValidationMessageFor(model => model.Username)</span>
+                                        </label>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label class="label">E-mail</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-envelope-o"></i>
+                                            <input data-bind="value:email" id="email" type="email" placeholder="" name="email">
+                                            <span style="color: red">@Html.ValidationMessageFor(model => model.Email)</span>
+                                        </label>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="label">Password</label>
+                                    <label class="input">
+                                        <i class="icon-append fa fa-lock"></i>
+                                        <input data-bind="value:password" type="password" placeholder="" name="password">
+                                        <span style="color: red">@Html.ValidationMessageFor(model => model.Password)</span>
+                                        <b class="tooltip tooltip-bottom-right">Password for your account</b>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="label">Confirm Password</label>
+                                    <label class="input">
+                                        <i class="icon-append fa fa-lock"></i>
+                                        <input data-bind="value:confirmPassword" type="password" placeholder="" name="confirmPassword">
+                                        <span style="color: red">@Html.ValidationMessageFor(model => model.ConfirmPassword)</span>
+                                        <b class="tooltip tooltip-bottom-right">Confirm your password</b>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </fieldset>
+
+                <fieldset>
+                    <section>
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-alt btn-icon btn-icon-right btn-icon-go pull-right">
+                                <span data-bind="click:validateSignUp">Register now</span>
+                            </button>
+                        </div>
+                        <input type="hidden" data-signup='@Url.Action("SignUp","Account")' id="signUpUrl" />
+                    </section>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
