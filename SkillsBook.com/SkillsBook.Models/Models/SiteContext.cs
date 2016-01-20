@@ -16,7 +16,7 @@ namespace SkillsBook.Models.Models
     public class SiteContext : DbContext
     {
        public SiteContext()
-            : base("Data Source=(local);Initial Catalog=SB;User ID=aseem;Password=shrestha; Connect Timeout=15000;pooling=true; Max Pool Size=20")
+            : base()
         {
        
         }
