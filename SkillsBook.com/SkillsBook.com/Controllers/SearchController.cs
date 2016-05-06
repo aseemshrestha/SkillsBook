@@ -105,6 +105,7 @@ namespace SkillsBook.com.Controllers
                 
             ViewData["SearchTerm"] = term;
             ViewData["CurrentPage"] = page;
+            ViewData["TotalCount"] = totalCount;
             ViewData["TotalPages"] =  ((totalCount - 1) / Constants.BlocksizeInitialLoad) + 1;
             return !tagsList.Any() ? null : PartialView("Partial.Search",tagsList);
         }

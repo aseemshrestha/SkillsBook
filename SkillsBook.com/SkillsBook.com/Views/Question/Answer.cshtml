@@ -23,7 +23,8 @@
                     <ul class="list-listings-2">
                         <li class="featured">
                             <h5 style="color:red">@TempData["Invalid"]</h5>
-                            <div class="listing-header bg-base">Question</div>
+                         <div class="listing-header bg-base">Question</div>
+                         
                             @foreach (var item in Model)
                             {
                                 <div class="cell">
@@ -67,14 +68,14 @@
                                     </div>
                                 </div>
 
-
+                               
 
                             <li>
                                 <div class="wp-block-body">
                                     <h5 class="article-label text-caps green" style="height:40px;padding-left:10px;padding-top:15px;">Answers </h5>
                                 </div>
                             </li>
-
+                                 @Html.Partial("Partial.SharedQuestion",new ViewDataDictionary { { "id", item.QuestionId} })
                                 foreach (var ans in item.Answers)
                                 {
 
@@ -128,9 +129,9 @@
                                     </li>
                                 }
                             }
-
+                       
                         </ul>
-
+                    
                         <br />
                     </div>
                     <input type="hidden" data-url='@Url.Action("RateAnswer","Question")' id="ra" />

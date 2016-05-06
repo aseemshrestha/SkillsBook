@@ -2,6 +2,14 @@
 <QuoteDetails>
 <!-- at home page (top)-->
   <QuoteMeta>
+    <Quote>
+      I'm unpredictable, I never know where I'm going until I get there, I'm so random, I'm always growing, learning, changing, I'm never the same person twice.
+      But one thing you can be sure of about me; is I will always do exactly what I want to do.
+    </Quote>
+    <Author>C. JoyBell C.</Author>
+  </QuoteMeta>
+  
+  <QuoteMeta>
     <Quote>All of my best friends are dead people. Someday I've got to figure out how that happened.</Quote>
     <Author>Claudia Gray</Author>
   </QuoteMeta>
@@ -26,10 +34,6 @@
   </QuoteMeta>
   
   
-  <QuoteMeta>
-    <Quote>I'm unpredictable111, I never know where I'm going until I get there, I'm so random, I'm always growing, learning, changing, I'm never the same person twice.
-      But one thing you can be sure of about me; is I will always do exactly what I want to do.</Quote>
-    <Author>C. JoyBell C.</Author>
-  </QuoteMeta>
+  
 
 </QuoteDetails>

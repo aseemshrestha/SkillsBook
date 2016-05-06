@@ -1,11 +1,11 @@
 ﻿@using SkillsBook.Models.DAL
 <!-- Social buttons -->
-<br />
 
 <ul class="rrssb-buttons clearfix mt-20 mb-20 rrssb-1 large-format">
-    <li>Good enough to share?</li><br />
+    <li>Good enough to ask your frieds?</li><br />
+   
     <li class="facebook" style="width: 14%;" data-initwidth="25" data-size="62">
-        <a class="popup" href="https://www.facebook.com/sharer/sharer.php?u=@Constants.Domain/Page/DisplayThread?threadId=@Model.ThreadId" title=@Model.Title>
+        <a class="popup" href="https://www.facebook.com/sharer/sharer.php?u=@Constants.Domain/Question/Answer?questionId=@ViewData["id"]" title="question">
             <span class="icon">
                 <svg xml:space="preserve" enable-background="new 0 0 28 28" viewBox="0 0 28 28" height="18px" width="28px" y="0px" x="0px" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" id="Layer_1" version="1.1">
                
@@ -15,7 +15,7 @@
         </a>
     </li>
     <li class="twitter" style="width: 14%;" data-initwidth="65" data-size="48">
-        <a class="popup" href="http://twitter.com/home?status=@Constants.Domain/Page/DisplayThread?threadId=@Model.ThreadId">
+        <a class="popup" href="http://twitter.com/home?status=@Constants.Domain/Question/Answer?questionId=@ViewData["id"]">
             <span class="icon">
                 <svg xml:space="preserve" enable-background="new 0 0 28 28" viewBox="0 0 28 28" height="28px" width="28px" y="0px" x="0px" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" id="Layer_1" version="1.1">
                 <path d="M24.253,8.756C24.689,17.08,18.297,24.182,9.97,24.62c-3.122,0.162-6.219-0.646-8.861-2.32
@@ -29,5 +29,5 @@
             <span class="text">twitter</span>
         </a>
     </li>
-   
+
 </ul>

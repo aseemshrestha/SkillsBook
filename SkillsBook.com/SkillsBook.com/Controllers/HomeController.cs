@@ -51,7 +51,7 @@ namespace SkillsBook.com.Controllers
                 Session["RecentQuestions"] = recentQuestions;
             }
           
-            ViewBag.RecentQuestions = Session["RecentQuestions"];
+            //ViewBag.RecentQuestio=Session["RecentQuestions"];
            
                    
             if (Session["QuoteTop"] == null || Session["Quote"] == null || Session["AuthorTop"] == null ||

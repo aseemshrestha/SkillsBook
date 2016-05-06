@@ -71,28 +71,31 @@
                                         </span>
                                     </div>
                                     @*Facebook.LikeButton(showFaces: false)*@
-                                    <strong><a class="btn btn-base btn-icon fa-thumbs-up" href="javascript:void(0)" id="like_@Model.ThreadId" data-liked="false" data-bind="event:{ mouseover: function(){showLoginMsg('@Model.ThreadId')},mouseout: function(){hideLoginMsg('@Model.ThreadId')} },click:function(){updateLikes('@Model.ThreadId')}"><span style="font-size: small">LIKE</span></a></strong>
-                                    <strong><a class="btn btn-alt btn-icon fa-eye" href="javascript:void(0)" data-watched="false" id="watch_@Model.ThreadId" data-bind="event:{ mouseover: function(){showLoginMsg('@Model.ThreadId')},mouseout: function(){hideLoginMsg('@Model.ThreadId')} },click:function(){updateWatch('@Model.ThreadId')}"><span style="font-size: small">WATCH</span> </a></strong>
-                                    <span class="btn-xs btn-light btn-icon fa-thumbs-up" id="likeh_@Model.ThreadId" style="display: none;font-size: small"><span>LIKED</span></span>
-                                    <span class="btn-xs btn-light btn-icon fa-eye" id="watchh_@Model.ThreadId" style="display: none;font-size: small"><span>WATCHING</span></span>
+                                   
+                                    <strong><a class="" href="javascript:void(0)" id="like_@Model.ThreadId" data-liked="false" data-bind="event:{ mouseover: function(){showLoginMsg('@Model.ThreadId')},mouseout: function(){hideLoginMsg('@Model.ThreadId')} },click:function(){updateLikes('@Model.ThreadId')}"><span style="font-size: medium; color: #333399; text-decoration: underline;">I Like this thread </span></a></strong>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span id="likeh_@Model.ThreadId" style="display: none;font-size: large;float: left;text-decoration: underline">Liked</span>
+
+                                    <strong><a class="" href="javascript:void(0)" data-watched="false" id="watch_@Model.ThreadId" data-bind="event:{ mouseover: function(){showLoginMsg('@Model.ThreadId')},mouseout: function(){hideLoginMsg('@Model.ThreadId')} },click:function(){updateWatch('@Model.ThreadId')}"><span style="font-size: medium; color: #333399; text-decoration: overline;">Let's Watch this thread</span> </a></strong>
+                                    <span id="watchh_@Model.ThreadId" style="display: none;font-size: large;text-decoration: overline">&nbsp;&nbsp;Watching</span>
 
                                     <input type="hidden" value="@Model.Username" id="uname" />
                                     <input type ="hidden" data-url='@Url.Action("Watch","Page")' id="watchUrl"/>
                                     <input type="hidden" data-url='@Url.Action("Like","Page")' id="likeUrl" />
                                     <a href="javascript:void" id="morePosts" data-url='@Url.Action("GetMorePostByUser","Page")'></a>
                                     <a href="javascript:void" id="showmore" data-url='@Url.Action("DisplayThread", "Page")'></a>
-                                    @*
-                                    @Html.Partial("Partial.SocialButtons",Model)
-                                    *@
+                                  
+                                    @Html.Partial("Partial.SocialButtons", Model)
+                                    
 
                                 </div>
                             </div>
                         </div>
                     </div>
+                  
                     <div class="row">
                         <div class="col-md-12">
-                            <a title="Click to open modal form example" class="btn btn-dark btn-icon btn-comment pull-left" href="#commentModal" data-toggle="modal">
-                                <span>Throw Your Comment</span>
+                            <a title="Click to open modal form example" class="" href="#commentModal" data-toggle="modal">
+                                <h3 style="color: #428bca; text-decoration: underline;">Throw your comment</h3>
                             </a>
                         </div>
                     </div>
