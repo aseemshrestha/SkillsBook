@@ -12,8 +12,8 @@ namespace SkillsBook.Models.DAL
     public class CacheManager
     {
         protected static readonly MemoryCache Cache = MemoryCache.Default;
-       
 
+      
         public static bool Exists(string cacheKey)
         {
             var exists = Cache.Get(cacheKey) != null;
@@ -49,7 +49,7 @@ namespace SkillsBook.Models.DAL
 
         public static void ClearSpecificCacheObject(string cacheKey)
         {
-           
+            
            Cache.Remove(cacheKey);
         }
 

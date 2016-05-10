@@ -11,7 +11,7 @@ namespace SkillsBook.Models.DAL
     public class Constants
     {
         
-        public static string SchemaName = "[SB].[dbo].";
+        public static string SchemaName = "[Sb1].[dbo].";
         public static int BlocksizeInitialLoad = 25;
         public static int BlocksizeMostViewed = 5;
         public static int BlocksizeMostLiked = 5;

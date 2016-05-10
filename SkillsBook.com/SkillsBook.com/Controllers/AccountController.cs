@@ -36,6 +36,7 @@ namespace SkillsBook.com.Controllers
             }
             _unitOfWork.Unlike(threadId, username, currentLike);
             CacheImplementation.UpdateCacheItem(CacheImplementation.RecentThreads, threadId, "Likes", "SUBTRACT");
+            CacheImplementation.UpdateCacheItem(CacheImplementation.MostLikedThreads, threadId, "Likes", "SUBTRACT");
             return Json(new { Result = "success" }, JsonRequestBehavior.AllowGet);
         }
 

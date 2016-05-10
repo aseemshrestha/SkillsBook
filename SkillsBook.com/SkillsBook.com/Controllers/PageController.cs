@@ -323,6 +323,9 @@ namespace SkillsBook.com.Controllers
             }
             // Response.Cache.SetCacheability(HttpCacheability.NoCache);
             CacheImplementation.UpdateCacheItem(CacheImplementation.RecentThreads, threadId, "Views", null);
+            CacheImplementation.UpdateCacheItem(CacheImplementation.MostViewedThreads, threadId, "Views", null);
+            CacheImplementation.UpdateCacheItem(CacheImplementation.MostLikedThreads, threadId, "Likes", "ADD");
+            CacheImplementation.UpdateCacheItem(CacheImplementation.MostCommentedThreads, threadId, "Comments", null);
             return View(threadSingle);
         }
 

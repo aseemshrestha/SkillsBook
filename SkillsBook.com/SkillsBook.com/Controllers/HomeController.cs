@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using System.Web.Caching;
 using System.Xml;
 using System.Xml.Serialization;
 using Microsoft.Ajax.Utilities;
@@ -20,8 +21,11 @@ namespace SkillsBook.com.Controllers
     {
         private readonly UnitOfWork _unitOfWork = new UnitOfWork();
 
+      
+
         public async Task<ActionResult> Index()
         {
+            //Session["RecentQuestions"] = null;
             //www.asp.net/mvc/overview/performance/using-asynchronous-methods-in-aspnet-mvc-4
           
             var allThreads = CacheImplementation.GetRecentThreads;

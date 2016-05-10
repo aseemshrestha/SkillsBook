@@ -202,17 +202,21 @@
                         <h5 class="article-label text-caps green" style="height:30px;padding-left:10px;padding-top:5px;">Recent Questions</h5>
                         <a href='@Url.Action("Index","Question")' style="color:crimson"><strong> Ask Question</strong></a>
                         <hr />
-                        @foreach (var item in (IEnumerable<SkillsBook.Models.Models.QuestionModel>) Session["RecentQuestions"])
+                        @if (Session["RecentQuestions"] != null)
                         {
-                            @item.Category<br />
-                            <a href='@Url.Action("Answer","Question",new {questionId=@item.QuestionId})' style="color: #136ad5; font-size: medium">
-                               <strong>@Html.Raw(item.Question)</strong>
-                           </a>
-                            <span class="post-author">By: @item.Username | Answers: @item.TotalAnswers &nbsp;&nbsp;&nbsp;</span><br />
-                            <a href='@Url.Action("Answer","Question",new {questionId=@item.QuestionId})' style="color: #136ad5; font-size: medium">
-                                 Answer Now 
-                            </a>
-                            <hr />
+                            foreach (var item in (IEnumerable<SkillsBook.Models.Models.QuestionModel>) Session["RecentQuestions"])
+                             {
+                                 @item.Category<br />
+                                 <a href='@Url.Action("Answer", "Question", new {questionId = @item.QuestionId})' style="color: #136ad5; font-size: medium">
+                                     <strong>@Html.Raw(item.Question)</strong>
+                                 </a>
+                                 <span class="post-author">By: @item.Username | Answers: @item.TotalAnswers &nbsp;&nbsp;&nbsp;</span>
+                                 <br />
+                                 <a href='@Url.Action("Answer", "Question", new {questionId = @item.QuestionId})' style="color: #136ad5; font-size: medium">
+                                     Answer Now 
+                                 </a>
+                                 <hr />
+                             }
                         }
                         <a class="btn btn-danger" href='@Url.Action("QuestionsOnly","Question")'>More Questions And Answers</a>
                         <hr />

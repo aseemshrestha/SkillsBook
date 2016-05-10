@@ -28,7 +28,6 @@
         <header id="header">
             <div class="invoice-intro">
                 <h1>@Model.ClassifiedTitle</h1>
-                <p>Building a Better Tomorrow Through Your Destruction</p>
             </div>
 
             <dl class="invoice-meta">
@@ -66,7 +65,7 @@
                             @Model.BuySellItem @space @dash @space @Model.ClassifiedTitle
                         }
                     </h6>
-                    <h6 class="">@if (isJob){  <text>Price:</text> @Model.Price }</h6>
+                    
                     <h6 class="">@Model.AdditionalInfo</h6>
                     <h6 class="">@Model.JobDetails</h6>
                     @if (imagePath != null)
