@@ -107,9 +107,11 @@
         self.likedByPopUp = function (threadId) {
             var url = $('#liked-by').data('url');
             var likes = '';
+            var likedOnDate = '';
             $.get(url + '?threadId=' + threadId, function (callback) {
                 $.each(callback.Result, function (i, v) {
-                    likes = likes + '' + v.LikedBy + '<br />';
+                    likedOnDate = new Date(parseInt(v.LikedOn.substr(6)));
+                    likes = likes + '' + v.LikedBy + ' on ' + $.datepicker.formatDate('mm/dd/yy', likedOnDate) + '<br />';
                 });
                 $("#close_" + threadId).show();
                 $("#show_" + threadId).show().html('<small>Liked By:</small><br />' + '<small>' + likes + '</small>');
@@ -126,9 +128,11 @@
         self.commentedByPopUp = function (threadId) {
             var url = $('#commented-by').data('url');
             var comments = '';
+            var commentedOnDate = '';
             $.get(url + '?threadId=' + threadId, function (callback) {
                 $.each(callback.Result, function (i, v) {
-                    comments = comments + '' + v.CommentedBy + '<br />';
+                    commentedOnDate = new Date(parseInt(v.CommentedOn.substr(6)));
+                    comments = comments + '' + v.CommentedBy + ' on ' + $.datepicker.formatDate('mm/dd/yy', commentedOnDate) + '<br />';
                 });
                 $("#close_" + threadId).show();
                 $("#show_" + threadId).show().html('<small>Commented By:</small><br />' + '<small>' + comments + '</small>');
@@ -153,10 +157,13 @@
 
         self.viewedByPopUp = function (threadId) {
             var url = $('#viewed-by').data('url');
+            //alert(url);
             var views = '';
+            var viewedOnDate = '';
             $.get(url + '?threadId=' + threadId, function (callback) {
                 $.each(callback.Result, function (i, v) {
-                    views = views + '' + v.ViewedBy + '<br />';
+                    viewedOnDate = new Date(parseInt(v.ViewedOn.substr(6)));
+                    views = views + '' + v.ViewedBy + ' on ' + $.datepicker.formatDate('mm/dd/yy',viewedOnDate) + '<br />';
                 });
                 $("#close_" + threadId).show();
                 $("#show_" + threadId).show().html('<small>Viewed By:</small><br />' + '<small>' + views + '</small>');

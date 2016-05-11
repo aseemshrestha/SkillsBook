@@ -306,8 +306,13 @@ namespace SkillsBook.com.Controllers
                         IpAddress = GetIp(),
                         Browser = Request.Browser.Browser
                     };
-                    _unitOfWork.ViewsRepository.Insert(viewsModel);
-                    _unitOfWork.Save();
+                    //only logged in users are recorded
+                    if (Request.Cookies["LogOnCookie"] != null)
+                    {
+                        _unitOfWork.ViewsRepository.Insert(viewsModel);
+                        _unitOfWork.Save();
+                    }
+                  
                     ViewBag.TotalPostByUser = totalPostCountByUser;
                     ViewBag.Comments = comments;
                     ViewBag.Posts = posts;

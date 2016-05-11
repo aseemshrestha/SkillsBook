@@ -41,7 +41,7 @@
                                     </div>
                                     <input type="hidden" data-url="@Url.Action("GetCommentedByThreadId", "Page")" id="commented-by" />
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="milestone-counter">
                                         <div class="milestone-count c-base" style="font-size: 12px; cursor: pointer" data-bind="event:{ click: function(){viewedByPopUp('@item.ThreadId')}}">@item.Views </div>
                                         <span>Views</span>
@@ -51,7 +51,7 @@
                                 
                             </div>
                             <div id="close_@item.ThreadId" style="display: none">&nbsp;<a href="javascript:void(0)" data-bind="click:function(){hidelikedByPopUp('@item.ThreadId')}"> Close(X) </a></div>
-                            <div id="show_@item.ThreadId" class="alert alert-warning fade in" style="display:none;width:80%;border-radius: 15px;background-color: deepskyblue!important;max-height: 250px;overflow-y: auto;overflow-x: hidden">
+                            <div id="show_@item.ThreadId" class="alert alert-warning fade in" style="display:none;width:100%;border-radius: 0px;background-color: #ffffff!important;max-height: 250px;overflow-y: auto;overflow-x: hidden">
                             </div>
                             <br />
                             <div class="row">
