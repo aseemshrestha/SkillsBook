@@ -10,8 +10,8 @@ namespace SkillsBook.Models.DAL
 {
     public class Constants
     {
-        
-        public static string SchemaName = "[Sb1].[dbo].";
+
+        public static string SchemaName = "[DB_9FFD81_sajhaspace].[dbo].";
         public static int BlocksizeInitialLoad = 25;
         public static int BlocksizeMostViewed = 5;
         public static int BlocksizeMostLiked = 5;
@@ -29,10 +29,10 @@ namespace SkillsBook.Models.DAL
 
         //email
 
-        public static string FromEmailAddress = "shrestha.asm@gmail.com";
-        public static string Password = "aseem4470376";
-        public static string SmptClient = "smtp.gmail.com";
-        public static int PortNumber = 587;
+        public static string FromEmailAddress = "postmaster@summarizehour.com";
+        public static string Password = "Hanumanji77@";
+        public static string SmptClient = "mail.summarizehour.com";
+        public static int PortNumber = 25;
 
         public static string Subject = "Account Recover";
         private const string Dear = "Dear _username,<br />";

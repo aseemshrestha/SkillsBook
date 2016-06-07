@@ -16,7 +16,7 @@ namespace SkillsBook.Models.Models
     public class SiteContext : DbContext
     {
        public SiteContext()
-            : base()
+            : base("Data Source=SQL5005.myASP.NET;Initial Catalog=DB_9FFD81_sajhaspace;User Id=DB_9FFD81_sajhaspace_admin;Password=saraswati77")
         {
        
         }

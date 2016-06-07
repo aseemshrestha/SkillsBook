@@ -422,7 +422,7 @@ namespace SkillsBook.Models.DAL
             msg.Body = message;
             msg.IsBodyHtml = true;
 
-            smtpClient.EnableSsl = true;
+            smtpClient.EnableSsl = false;
             smtpClient.UseDefaultCredentials = false;
             smtpClient.Credentials = loginInfo;
             try
