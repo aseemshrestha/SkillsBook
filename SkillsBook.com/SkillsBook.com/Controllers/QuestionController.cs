@@ -176,6 +176,7 @@ namespace SkillsBook.com.Controllers
             {
                 _unitOfWork.AnswerRepository.Insert(answerModel);
                 _unitOfWork.Save();
+                Session["RecentQuestions"] = null;
                 _unitOfWork.SendEmail(questionModel.Email, "Someone just answered your question",
                         "Dear " + questionModel.Username +
                         "<br /> Someone just answered your question. <br /> Visit the link below to see the answer.<br />" +

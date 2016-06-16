@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,6 +41,7 @@ namespace SkillsBook.Models.DAL
             if (result == null) return;
                 foreach (var item in result.Result.Where(x => x.ThreadId == threadId))
                 {
+                  
                     if(action.Equals("SUBTRACT"))
                        item.Likes = item.Likes - 1;
                     else if(action.Equals("ADD"))

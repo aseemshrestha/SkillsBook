@@ -1,13 +1,12 @@
-﻿<div id="commentModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+﻿
+<div id="commentModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="margin-top: 90px;">
         <div class="modal-content">
-
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="commentModalLabel">Add your comment here</h4>
             </div>
             <div class="modal-body color-two">
-                <div class="sign-in-wr">
                     <form class="form-light" id="commentForm" action='@Url.Content("~/Page/SubmitComment")'>
                         <div class="row">
                             <div class="col-md-12">
@@ -21,8 +20,6 @@
                             </div>
                         </div>
                     </form>
-                </div>
-
             </div>
             <div class="modal-footer">
                 <button class="btn btn-base btn-icon btn-send pull-right" type="submit">

@@ -158,7 +158,11 @@ namespace SkillsBook.com.Controllers
                     threadRow.Responses = threadRow.Responses + 1;
                     threadRow.LastUpdated = DateTime.Now;
                     _unitOfWork.ThreadRepository.Update(threadRow);
-                    CacheImplementation.UpdateCacheItem(CacheImplementation.RecentThreads, threadId, "Comments", null);
+                    //CacheImplementation.UpdateCacheItem(CacheImplementation.RecentThreads, threadId, "Comments", null);
+                   // CacheImplementation.UpdateCacheItem(CacheImplementation.MostCommentedThreads, threadId, "Comments", null);
+                    CacheImplementation.ClearSpecificCacheObject(CacheImplementation.RecentThreads);
+                    CacheImplementation.ClearSpecificCacheObject(CacheImplementation.MostCommentedThreads);
+
                     _unitOfWork.Save();
                     // notifyWatchers = true;
                     scope.Complete();
@@ -329,7 +333,7 @@ namespace SkillsBook.com.Controllers
             // Response.Cache.SetCacheability(HttpCacheability.NoCache);
             CacheImplementation.UpdateCacheItem(CacheImplementation.RecentThreads, threadId, "Views", null);
             CacheImplementation.UpdateCacheItem(CacheImplementation.MostViewedThreads, threadId, "Views", null);
-            CacheImplementation.UpdateCacheItem(CacheImplementation.MostLikedThreads, threadId, "Likes", "ADD");
+            //CacheImplementation.UpdateCacheItem(CacheImplementation.MostLikedThreads, threadId, "Likes", null);
             CacheImplementation.UpdateCacheItem(CacheImplementation.MostCommentedThreads, threadId, "Comments", null);
             return View(threadSingle);
         }
@@ -383,6 +387,7 @@ namespace SkillsBook.com.Controllers
                     _unitOfWork.LikeRepository.Insert(likeModel);
                     _unitOfWork.Save();
                     CacheImplementation.UpdateCacheItem(CacheImplementation.RecentThreads, threadId, "Likes", "ADD");
+                    CacheImplementation.UpdateCacheItem(CacheImplementation.MostLikedThreads, threadId, "Likes", "ADD");
                     scope.Complete();
                 }
 

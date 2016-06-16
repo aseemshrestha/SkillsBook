@@ -364,7 +364,6 @@
     <Content Include="assets\sky-forms\css\sky-forms-red.css" />
     <Content Include="assets\sky-forms\css\sky-forms-yellow.css" />
     <Content Include="assets\sky-forms\css\sky-forms.css" />
-    <Content Include="assets\sky-forms\icons\fontawesome-webfont.svg" />
     <Content Include="assets\sky-forms\img\bg-black.jpg" />
     <Content Include="assets\sky-forms\img\bg-blue.jpg" />
     <Content Include="assets\sky-forms\img\bg-cyan.jpg" />
@@ -872,6 +871,8 @@
     <Content Include="Facebook\Login.cshtml" />
     <Content Include="css\Web.config" />
     <Content Include="Scripts\app\jquery.MultiFile.min.js" />
+    <Content Include="assets\social-buttons\icons\README.md" />
+    <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\app\jquery-1.8.2.min.js" />
@@ -1116,9 +1117,11 @@
     <Content Include="Views\Question\QuestionsOnly.cshtml" />
     <Content Include="Views\Account\Partial.MyQuestions.cshtml" />
     <Content Include="Views\Page\NotFound.cshtml" />
+    <Content Include="Views\Shared\Partial.SharedQuestion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="assets\sky-forms\icons\" />
     <Folder Include="Content\CI\" />
     <Folder Include="images\prv\blog\resized\" />
   </ItemGroup>
@@ -1142,12 +1145,7 @@
     <Content Include="assets\sky-forms\captcha\font\anorexia.ttf" />
     <Content Include="assets\sky-forms\captcha\image.php" />
     <Content Include="assets\sky-forms\captcha\process.php" />
-    <Content Include="assets\sky-forms\icons\fontawesome-webfont.eot" />
-    <Content Include="assets\sky-forms\icons\fontawesome-webfont.ttf" />
-    <Content Include="assets\sky-forms\icons\fontawesome-webfont.woff" />
-    <Content Include="assets\sky-forms\icons\FontAwesome.otf" />
     <Content Include="assets\sky-forms\less\sky-forms.less" />
-    <Content Include="assets\social-buttons\icons\README.md" />
     <Content Include="assets\social-buttons\scss\demo.scss" />
     <Content Include="assets\social-buttons\scss\rrssb.scss" />
     <Content Include="assets\ui-kit\less\cusel.less" />

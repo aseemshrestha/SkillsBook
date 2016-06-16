@@ -29,9 +29,9 @@ namespace SkillsBook.Models.DAL
 
         //email
 
-        public static string FromEmailAddress = "postmaster@summarizehour.com";
+        public static string FromEmailAddress = "postmaster@gufgaaf.com";
         public static string Password = "Hanumanji77@";
-        public static string SmptClient = "mail.summarizehour.com";
+        public static string SmptClient = "mail.gufgaaf.com";
         public static int PortNumber = 25;
 
         public static string Subject = "Account Recover";
