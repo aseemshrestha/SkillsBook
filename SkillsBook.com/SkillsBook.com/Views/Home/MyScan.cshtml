@@ -1,0 +1,104 @@
+﻿@model IEnumerable<SkillsBook.Models.Models.News>
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
+<div class="pg-opt">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 style="margin-left:-3%">
+                    Today's Penny Stocks News (NYSE, NASDAQ, NYSEMKT) - 
+                    <span style="color:blue">MY Scan - it scans all penny stocks traded in NYSE, NASDAQ, NYSEMKT.</span><br />
+                   
+                </h4>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+@*
+    <section class="slice bg-white">
+        <div class="wp-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="wp-block">
+                            <div class="form-body">
+                                <form action="" id="frmLogin" class="sky-form">
+                                    <fieldset>
+                                        <section>
+                                            <div class="form-group">
+                                                <label class="label">Search Symbol for News</label>
+                                                <label class="input">
+                                                    <input type="text" name="text" id="autocomplete">
+                                                </label>
+                                            </div>
+                                        </section>
+                                    </fieldset>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+*@
+<div class="alert alert-info" style="overflow-x:auto;">
+    <span style="font-size:large">@ViewBag.Search</span>
+</div>
+<div style="overflow-x:auto;">
+    <table>
+        <tr>
+            <th>PublishedDate (EST)</th>
+            <th>Title</th>
+        </tr>
+        @if (Model != null)
+        {
+            foreach (var i in Model)
+            {
+             
+                    <tr>
+                        <td>@i.PublishedDateTime &nbsp;&nbsp;&nbsp;</td>
+
+                        @{
+                    string _title = i.Title.ToLower();
+                    if (_title.Contains("merge") || _title.Contains("acquire") || _title.Contains("deal")
+                    || _title.Contains("approve") || _title.Contains("announce") || _title.Contains("earnigns") || _title.Contains("receives")
+                    || _title.Contains("raises") || _title.Contains("acquisition") || _title.Contains("agreement")
+                    || _title.Contains("contract") || _title.Contains("partnership") || _title.Contains("partner")
+                    || _title.Contains("awarded") || _title.Contains("launch") || _title.Contains("participate") || _title.Contains("files"))
+                    {
+
+                        <td><a href="@i.Link"><span style="color:red;"><strong>HOT !!:@_title</strong></span></a></td>
+
+                    }
+                    else
+                    {
+                        <td><a href="@i.Link"><span style="color:#333399;"><strong>@_title</strong></span></a></td>
+                    }
+                        }
+
+                    </tr>
+                }
+            }
+        
+    </table>
+</div>

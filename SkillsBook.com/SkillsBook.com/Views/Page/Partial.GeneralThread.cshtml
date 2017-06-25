@@ -19,9 +19,10 @@
             </div>
             <label class="input">
                 <label class="label">Tags ( select the tags from above or create your own )</label>
-                <label class="label">Your own tag ( if any ): <a href="javascript:void(0)" data-bind="click:createTags">Create</a></label>
+                <label class="label">Your own tag ( if any  ) type below and hit Create and choose from list: <a href="javascript:void(0)" data-bind="click:createTags">Create</a></label>
                 <input type="text" data-bind="value:owntag" style="width:50%" />
                 <br />
+                <label class="label">Custom Tag ( or you can simply type here - only one tag is allowed per thread)</label>
                 <input type="text" id="tagsG" name="TagsGeneral" placeholder="@ViewBag.TagsG" value="@ViewBag.TagsG" data-bind="value:tagsG" style="width:100%">
                 <small><a href="javascript:void(0)" data-bind="click:resetTags">Reset tags</a></small>
             </label>

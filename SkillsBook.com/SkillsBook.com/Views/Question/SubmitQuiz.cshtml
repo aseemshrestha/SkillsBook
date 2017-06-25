@@ -1,0 +1,207 @@
+﻿@{
+    bool isUserLoggedIn = false;
+    string username = String.Empty;
+    string email = String.Empty;
+}
+<div class="pg-opt">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Submit a Quiz</h2>
+            </div>
+            <div class="col-md-6">
+                <ol class="breadcrumb">
+                    @if (Request.Cookies["LogOnCookie"] == null)
+                    {
+                        <li>Would you like to sign up? <a href='@Url.Action("SignUp","Account")'>SignUp</a></li>
+                    }
+                    else
+                    {
+                        <li><a href="javascript:void(0)">Welcome @Request.Cookies["LogOnCookie"]["username"]</a></li>
+                        isUserLoggedIn = true;
+                        username = @Request.Cookies["LogOnCookie"]["username"];
+                        email = @Request.Cookies["LogOnCookie"]["email"];
+                    }
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="slice bg-white">
+    <div class="wp-section">
+        <div class="container">
+            <div class="row mb-40">
+                <div class="col-lg-10 col-md-6">
+                    <div class="wp-block default user-form">
+                        <div class="form-header base" style="background-color: cornflowerblue !important">
+                            <h2 style="color: #ffffff">Creating a quiz ( All fields are mandatory )</h2>
+                        </div>
+                        <div class="form-body">
+                            <form id="quizForm" class="sky-form" >
+                                <input id="createQuizUrl" type="hidden" data-url='@Url.Action("SubmitQuiz","Question")'/>
+                                <fieldset class="no-padding">
+                                    <section class="no-margin">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <span id="notify" style="font-size: large" ></span>
+                                                    <a href='@Url.Action("PlayQuiz","Question")'>Play Quiz</a>
+                                                    @if (isUserLoggedIn)
+                                                    {
+                                                        <text>
+                                                            <input type="hidden" id="uname" name="username" value="@username" placeholder="@username" readonly>
+                                                            <input type="hidden" id="email" name="email" value="@email" placeholder="@email" readonly>
+                                                        </text>
+                                                    }
+                                                    @if (!isUserLoggedIn)
+                                                    {
+                                                        <text>
+                                                            <label class="label">
+                                                                Would you like to signup prior submitting quiz? <a href='@Url.Action("SignUp","Account")'>SignUp</a><br />
+                                                                <small>You will get better analytics if you signup and submit a quiz. Else you can submit anonymously as well. </small>
+                                                            </label>
+                                                    
+                                                            <input type="hidden" id="uname" name="username" value="null" placeholder="">
+                                                            <input type="hidden" id="email" name="email" value="null" placeholder="">
+                                                        </text>
+
+                                                    }
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </section>
+                                </fieldset>
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="label">
+                                                <strong>
+                                                    All fields are mandatory.
+                                                </strong>
+                                            </label>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <div class="form-group">
+                                                            <label class="label">Question</label>
+                                                            <label class="input">
+                                                                <input id="quizQuestion" type="text" placeholder="" name="quizQuestion" required>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <select id="category" class="form-control" name="category" required>
+                                                            <option value="">Cateory - Choose One</option>
+                                                            @foreach (var item in @ViewBag.Categories)
+                                                            {
+                                                                <option value="@item">@item</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <div class="form-group">
+                                                            <label class="label">Answer 1</label>
+                                                            <label class="input">
+                                                                <input id="quizAnswer1" type="text" placeholder="" name="quizAnswer1" required>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <div class="form-group">
+                                                            <label class="label">Answer 2</label>
+                                                            <label class="input">
+                                                                <input id="quizAnswer2" type="text" placeholder="" name="quizAnswer2" required>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <div class="form-group">
+                                                            <label class="label">Answer 3</label>
+                                                            <label class="input">
+                                                                <input id="quizAnswer3" type="text" placeholder="" name="quizAnswer3" required>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <div class="form-group">
+                                                            <label class="label">Answer 4</label>
+                                                            <label class="input">
+                                                                <input id="quizAnswer4" type="text" placeholder="" name="quizAnswer4" required>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </fieldset>
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <h5>Which one is the correct answer?</h5><small>We need to validate against when this quiz gets played.</small>
+                                            <label class="radio">
+                                                <input type="radio" name="quizRadio" id="answer1" value="answer1">
+                                                <i></i> Answer1
+                                            </label>
+
+                                            <label class="radio">
+                                                <input type="radio" name="quizRadio" id="answer2" value="answer2">
+                                                <i></i> Answer2
+                                            </label>
+                                            
+
+                                            <label class="radio">
+                                                <input type="radio" name="quizRadio" id="answer3" value="answer3">
+                                                <i></i> Answer3
+                                            </label>
+
+                                            <label class="radio">
+                                                <input type="radio" name="quizRadio" id="answer4" value="answer4">
+                                                <i></i> Answer4
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                </fieldset>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="button" class="btn btn-base btn-icon btn-icon-right btn-fly pull-right">
+                                            <span id="createQuizBtn">Submit</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

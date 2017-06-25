@@ -554,6 +554,8 @@ namespace SkillsBook.com.Controllers
                         _unitOfWork.ThreadRepository.Insert(threadModel);
                         _unitOfWork.Save();
                         CacheImplementation.ClearSpecificCacheObject(CacheImplementation.RecentThreads);
+                        CacheImplementation.ClearSpecificCacheObject(CacheImplementation.TrendingTagsAnnouncement);
+                        CacheImplementation.ClearSpecificCacheObject(CacheImplementation.TrendingTagsGeneral);
                     }
                     
                     scope.Complete();

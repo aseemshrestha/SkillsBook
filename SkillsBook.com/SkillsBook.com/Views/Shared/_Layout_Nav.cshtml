@@ -11,53 +11,86 @@
                     </button>
                    
                 </div>
-                <div class="navbar-collapse collapse" style="background-color: #4288DD">
-                   <!---<a class="navbar-brand" href='@Url.Action("Index","Home")' title="">
+                <div class="navbar-collapse collapse">
+                   <!--<a class="navbar-brand" href='@Url.Action("Index","Home")' title="">
                         <img src='@Url.Content("~/images/logo.png")' alt="" width="150" height="20">
                     </a>-->
                     <ul class="nav navbar-nav navbar-right">
-
+                        
                         <li class="dropdown dropdown-meganav mega-dropdown-fluid">
-                            <a href="@Url.Action("Index","Home")" style="color:#ffffff">Home</a>
+                            <a href="@Url.Action("Index","Home")" style="color:orange">Home</a>
                         </li>
-                        <li class="dropdown">
-                            <a href="@Url.Action("AddThread", "Page")" style="color:#ffffff">Add a Thread</a>
-                        </li>
-
-                        <li class="dropdown">
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="#" style="color:#ffffff">Classifieds</a>
-                            <ul class="dropdown-menu">
-                                <li><a href='@Url.Action("AddThread","Page")'>Add New Classified</a></li>
-                                <li><a href='@Url.Action("DisplayAllClassifieds","Page", new {type= "Housing"})'>Show Rooms/Housing</a></li>
-                                <li><a href='@Url.Action("DisplayAllClassifieds","Page", new {type= "BuySell"})'>Show Buy/Sell</a></li>
-                                <li><a href='@Url.Action("DisplayAllClassifieds","Page", new {type= "Jobs"})'>Show Local Jobs</a></li>
+                       
+                        <!--
+                        <li class="dropdown" id="d-v">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#" style="color:orange">Criterias - SMA/AVG VOL </a>
+                            <ul class="dropdown-menu" id="dd-v">
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "vol200-1" })'>Above 50DSMA/200K - I</a></li>
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "vol200-2" })'>Above 50DSMA/200K - II</a></li>
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "vol200-3" })'>Above 50DSMA/200K - III</a></li>
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "vol200-4" })'>Above 50DSMA/200K - IV</a></li>
                             </ul>
                         </li>
-
-                        <li class="dropdown">
-                            <a href="@Url.Action("GetTags","Page")" style="color:#ffffff">Tags</a>
+                        -->
+                        <li class="dropdown" id="d-a">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#" style="color:orange">
+                                Criterias - Alphabets ( A - H )
+                            </a>
+                           
+                            <ul class="dropdown-menu" id="dd-a">
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "fromA" })' id="fromA">Ticker Starting from A</a></li>
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "fromB" })'>B</a></li>
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "fromC" })'>C</a></li>
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "fromD" })'>D</a></li>
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "fromE" })'>E</a></li>
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "fromF" })'>F</a></li>
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "fromG" })'>G</a></li>
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "fromH" })'>H</a></li>
+                               
+                             </ul>
                         </li>
-
-                        <li class="dropdown">
-                            <a href="@Url.Action("Index","Search")" style="color:#ffffff">Search</a>
+                        <li class="dropdown" id="d-b">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#" style="color:orange">Alphabets ( I - Q )</a>
+                            <ul class="dropdown-menu" id="dd-b">
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "fromI" })'>Ticker Starting from I</a></li>
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "fromJ" })'>J</a></li>
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "fromK" })'>K</a></li>
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "fromL" })'>L</a></li>
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "fromM" })'>M</a></li>
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "fromN" })'>N</a></li>
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "fromO" })'>O</a></li>
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "fromP" })'>P</a></li>
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "fromQ" })'>Q</a></li>
+                            </ul>
                         </li>
-                        <li class="dropdown">
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="#" style="color:#ffffff">Question</a>
-                            <ul class="dropdown-menu">
-                                <li><a href='@Url.Action("Index","Question")'>Ask a Question</a></li>
-                                <li><a href='@Url.Action("QuestionsOnly","Question")'>Answer a Question</a></li>
-                                <li><a href='@Url.Action("QuestionsOnly","Question")'>Show All</a></li>
+                        <li class="dropdown" id="d-c">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#" style="color:orange">Alphabets ( R - Z )</a>
+                            <ul class="dropdown-menu" id="dd-c">
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "fromR" })'>Ticker Starting from R</a></li>
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "fromS" })'>S</a></li>
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "fromT" })'>T</a></li>
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "fromU" })'>U</a></li>
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "fromV" })'>V</a></li>
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "fromW" })'>W</a></li>
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "fromX" })'>X</a></li>
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "fromY" })'>Y</a></li>
+                                <li><a href='@Url.Action("Index", "Home", new { symbols = "fromZ" })'>Z</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a href="@Url.Action("Feedback","Account")" style="color:#ffffff">Stay Connected</a>
+                            <a href="@Url.Action("ScanTickers","Home")" style="color:orange">Deep Scan</a>
                         </li>
-                        <li>
-                            <a href="@Url.Action("SignUp","Account")" style="color:#ffffff">Login/Signup</a>
+                        <li class="dropdown">
+                            <a href="@Url.Action("MyScan","Home")" style="color:orange">Scan All At Once</a>
                         </li>
+                        <li class="dropdown">
+                            <a href="@Url.Action("Feedback","Account")" style="color:orange">FeedBack</a>
+                        </li>
+                       
                     </ul>
                 </div><!--/.nav-collapse -->
                </div>
             </div>
         </header>
     </div>
+ 

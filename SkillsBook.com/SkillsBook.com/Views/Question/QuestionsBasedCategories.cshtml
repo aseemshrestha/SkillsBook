@@ -6,14 +6,17 @@
             <div class="col-md-12">
                 <div id="pagination" style="float:right">
                     <ul class="pagination pagination-sm">
-                        @for (var i = 1; i <= Convert.ToInt32(ViewData["TotalPages"]); i++){
+                        @for (var i = 1; i <= Convert.ToInt32(ViewData["TotalPages"]); i++)
+                        {
                             if (Convert.ToInt32(ViewData["CurrentPage"]) == i)
-                            { 
+                            {
                                 if (i < 1)
                                 { continue; }
                                 <li class="active"><a href="javascript:void(0)">@i</a></li>
                             }
-                            else { <li class=""><a href='@Url.Action("QuestionsOnly","Question",new {page=i})'>@i</a></li> }
+                            else
+                            {
+                            <li class=""><a href='@Url.Action("GetQuestionByCategory", "Question", new { category= @ViewData["Category"],page = i })'>@i</a></li> }
                         }
                     </ul>
                 </div>
@@ -28,10 +31,10 @@
                             <strong>@Html.Raw(item.Question)</strong>
                             <br />
                         </a>
-                      
-                        <span class="post-author">By: @item.Username | Asked On: @item.AskedOn.ToShortDateString() | Category: <a href='@Url.Action("GetQuestionByCategory", "Question", new { category = @item.Category})' style="color: #136ad5;">@item.Category</a> | Total Answers: @item.TotalAnswers</span>
+
+                        <span class="post-author">By: @item.Username | Asked On: @item.AskedOn.ToShortDateString() | Category: @item.Category | Total Answers: @item.TotalAnswers</span>
                         <br />
-                        
+
                         <a href='@Url.Action("Answer","Question",new {questionId=@item.QuestionId})' style="color: #136ad5; font-size: medium"> Answer Now </a>
                         <hr />
                     }
@@ -39,7 +42,7 @@
                     {
                         <a class="btn btn-danger" href='javascript:void(0)'>More Questions And Answers</a>
                     }
-                  
+
                     <div id="pagination" style="float:right">
                         <ul class="pagination pagination-sm">
                             @for (var i = 1; i <= Convert.ToInt32(ViewData["TotalPages"]); i++)
@@ -52,7 +55,7 @@
                                 }
                                 else
                                 {
-                                <li class=""><a href='@Url.Action("QuestionsOnly","Question",new {page=i})'>@i</a></li> }
+                                    <li class=""><a href='@Url.Action("GetQuestionByCategory", "Question", new { page = i })'>@i</a></li> }
                             }
                         </ul>
                     </div>

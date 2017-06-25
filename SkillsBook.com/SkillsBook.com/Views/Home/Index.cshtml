@@ -11,12 +11,9 @@
     {
         isMobile = true;
     }
-
 }
-@if (Request.Cookies["LogOnCookie"] != null)
-{
+@if (Request.Cookies["LogOnCookie"] != null){
     who = Request.Cookies["LogOnCookie"]["username"];
-
 }
 
 <div class="pg-opt">
@@ -25,16 +22,24 @@
             <div class="col-md-6">
             </div>
             <div class="col-md-12">
-                <ul class="breadcrumb">
+                <ul class="">
                     @if (who == null)
                     {
                         <li><a href="javascript:void(0)"><br /><h6>Random Quote</h6> <em>@Session["QuoteTop"] - @Session["AuthorTop"]</em></a></li>
                     }
                     else
                     {
-                        <li><a href="javascript:void(0)">Welcome @who</a></li>
+                        <li><a href="javascript:void(0)">Welcome @who</a><br /></li>
                     }
+                    <li>
+                        <a href="javascript:void(0)" class="btn btn-base" id="playQuizBtn">Play Quizzes</a>
+                        <a href="javascript:void(0)" class="btn btn-alt" id="submitQuizBtn">Submit Quizzes</a>
+                    </li>
+                  
                 </ul>
+                <br />
+                <input type="hidden" id="submitQuizUrl" data-url='@Url.Action("SubmitQuiz","Question")' />
+                <input type="hidden" id="playQuizUrl" data-url='@Url.Action("PlayQuiz","Question")' />
             </div>
         </div>
     </div>
@@ -202,11 +207,11 @@
                         <h5 class="article-label text-caps green" style="height:30px;padding-left:10px;padding-top:5px;">Recent Questions</h5>
                         <a href='@Url.Action("Index","Question")' style="color:crimson"><strong> Ask Question</strong></a>
                         <hr />
-                        @if (Session["RecentQuestions"] != null)
+                                                @if (Session["RecentQuestions"] != null)
                         {
                             foreach (var item in (IEnumerable<SkillsBook.Models.Models.QuestionModel>) Session["RecentQuestions"])
                              {
-                                 @item.Category<br />
+                                <a href='@Url.Action("GetQuestionByCategory", "Question", new { category = @item.Category})'>@item.Category</a><br />
                                  <a href='@Url.Action("Answer", "Question", new {questionId = @item.QuestionId})' style="color: #136ad5; font-size: medium">
                                      <strong>@Html.Raw(item.Question)</strong>
                                  </a>

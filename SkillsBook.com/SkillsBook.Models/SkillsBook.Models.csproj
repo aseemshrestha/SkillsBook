@@ -92,6 +92,8 @@
     <Compile Include="DAL\CacheManager.cs" />
     <Compile Include="DAL\Constants.cs" />
     <Compile Include="DAL\Encryption.cs" />
+    <Compile Include="DAL\SMA50Vol200.cs" />
+    <Compile Include="DAL\Tickers.cs" />
     <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="DAL\UrlHelperExtensions.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -100,7 +102,9 @@
     <Compile Include="Models\FeedbackModel.cs" />
     <Compile Include="Models\FollowModel.cs" />
     <Compile Include="Models\LikeModel.cs" />
+    <Compile Include="Models\News.cs" />
     <Compile Include="Models\Question.cs" />
+    <Compile Include="Models\Quiz.cs" />
     <Compile Include="Models\WatchModel.cs" />
     <Compile Include="Models\ThreadModel.cs" />
     <Compile Include="Models\UserModel.cs" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
 using System.Web;
+using System.Web.Http;
 using System.Web.Mvc;
 using System.Xml;
 using Microsoft.Ajax.Utilities;
@@ -15,7 +16,7 @@ namespace SkillsBook.com.Controllers
     {
         private readonly UnitOfWork _unitOfWork = new UnitOfWork();
 
-        [HttpGet]
+        [System.Web.Mvc.HttpGet]
         public ActionResult Index()
         {
             var listOfCategories = new List<string>();
@@ -34,7 +35,7 @@ namespace SkillsBook.com.Controllers
 
 
 
-        [HttpPost]
+        [System.Web.Mvc.HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
         public ActionResult AskQuestion(string username, string email, string category, string question)
@@ -120,7 +121,7 @@ namespace SkillsBook.com.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [HttpGet]
+        [System.Web.Mvc.HttpGet]
         public ActionResult Answer(int questionId)
         {
             var recentQues = _unitOfWork.QuestionRepository.GetWithRawSql("Select Top 25 * from " + Constants.SchemaName +
@@ -129,8 +130,21 @@ namespace SkillsBook.com.Controllers
             var quesAns = _unitOfWork.GetAnswers(questionId);
             return View(quesAns);
         }
+        [System.Web.Mvc.HttpGet]
+        public ActionResult GetQuestionByCategory(string category, int page=1)
+        {
+            var offset = (page - 1) * Constants.BlocksizeMax;
+            var categoryBasedQuestions = _unitOfWork.QuestionRepository.Get(x => x.QuestionId > 0 && x.Category.Equals(category)).Skip(offset).Take((int)(offset > Constants.BlocksizeMax ? offset - (offset - Constants.BlocksizeMax) : offset == 0 ? Constants.BlocksizeMax : offset)).OrderByDescending(x => x.AskedOn);
+            int totalPosts = _unitOfWork.QuestionRepository.Get(x => x.QuestionId > 0 && x.Category.Equals(category)).Count();
+            ViewData["CurrentPage"] = page;
+            ViewData["TotalCount"] = totalPosts;
+            ViewData["BlockSize"] = Constants.BlocksizeMax;
+            ViewData["Category"] = category;
+            ViewData["TotalPages"] = ((totalPosts - 1) / Constants.BlocksizeMax) + 1;
+            return View("QuestionsBasedCategories", categoryBasedQuestions);
+        }
 
-        [HttpGet]
+        [System.Web.Mvc.HttpGet]
         public ActionResult QuestionsOnly(int page = 1)
         {
             var offset = (page - 1) * Constants.BlocksizeMax;
@@ -145,7 +159,7 @@ namespace SkillsBook.com.Controllers
         }
 
        
-        [HttpPost]
+        [System.Web.Mvc.HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AnswerNow(int questionId,string answer)
         {
@@ -192,7 +206,7 @@ namespace SkillsBook.com.Controllers
             return RedirectToAction("Answer", "Question", new {questionId = questionId});
         }
 
-        [HttpGet]
+        [System.Web.Mvc.HttpGet]
         public JsonResult RateAnswer(int answerId, int rating)
         {
             try
@@ -241,6 +255,122 @@ namespace SkillsBook.com.Controllers
 
         }
 
+        [System.Web.Mvc.HttpGet]
+        public ActionResult SubmitQuiz()
+        {
+            var listOfCategories = new List<string>();
+            var doc = new XmlDocument();
+            doc.Load(Server.MapPath("~/LolNQuote/questionCategories.xml"));
+            XmlElement xelRoot = doc.DocumentElement;
+            if (xelRoot != null)
+            {
+                XmlNodeList xnlNodes = xelRoot.SelectNodes("/QuestionCategories/CategoriesList");
+                if (xnlNodes != null)
+                    listOfCategories.AddRange(from XmlNode xndNode in xnlNodes from XmlNode childNode in xndNode.ChildNodes select childNode.InnerText);
+            }
+            ViewBag.Categories = listOfCategories;
+            return View();
+        }
+
+        [System.Web.Mvc.HttpGet]
+        public ActionResult PlayQuiz(int blocksize = 50,int page =1)
+        {
+            var quizes = _unitOfWork.GetRecentQuiz(blocksize,page);
+            int totalPosts = _unitOfWork.QuizRepository.Get(x => x.QuizId > 0).Count();
+            ViewData["CurrentPage"] = page;
+            ViewData["TotalCount"] = totalPosts;
+            ViewData["BlockSize"] = blocksize;
+            ViewData["TotalPages"] = ((totalPosts - 1) / blocksize) + 1;
+            return View(quizes);
+        }
+
+        [System.Web.Mvc.HttpGet]
+        public ActionResult CheckQuiz(int qId,string a)
+        {
+            try
+            {
+                var answermodel = _unitOfWork.QuizAnswerRepository.GetById(qId);
+                var questionmodel = _unitOfWork.QuizRepository.GetById(qId);
+                questionmodel.TotalAnswers = questionmodel.TotalAnswers + 1;
+                _unitOfWork.QuizRepository.Update(questionmodel);
+                _unitOfWork.Save();
+                return Json(answermodel.RightAnswer.Equals(a) ? (object)new { Result = "match", Count = questionmodel.TotalAnswers } : new { Result = "nomatch", Count = questionmodel.TotalAnswers }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+            }
+            return null;
+        }
+
+
+
+        [System.Web.Mvc.HttpPost]
+        public ActionResult SubmitQuiz(string username,string email,string question,string category,string answer1,string answer2,string answer3,string answer4,string rightanswer)
+        {
+
+            var scope = new TransactionScope(TransactionScopeOption.RequiresNew, new TransactionOptions()
+            {
+                IsolationLevel = IsolationLevel.ReadCommitted
+            });
+            try
+            {
+                using (scope)
+                {
+                    var quizQuestionModel = new QuizModel
+                    {
+                        Username = username,
+                        Email = email,
+                        Category = category,
+                        Question = question,
+                        AskedOn = DateTime.Now,
+                        IpAddress = GetIp(),
+                        LastUpdated = DateTime.Now,
+                        TotalAnswers = 0
+                    };
+                    _unitOfWork.QuizRepository.Insert(quizQuestionModel);
+                    _unitOfWork.Save();
+                    if (rightanswer.Equals("answer1"))
+                    {
+                        rightanswer = answer1;
+                    }
+                    if (rightanswer.Equals("answer2"))
+                    {
+                        rightanswer = answer2;
+                    }
+                    if (rightanswer.Equals("answer3"))
+                    {
+                        rightanswer = answer3;
+                    }
+                    if (rightanswer.Equals("answer4"))
+                    {
+                        rightanswer = answer4;
+                    }
+                    var quizAnswerModel = new QuizAnswersModel
+                    {
+                        Answer1 = answer1,
+                        Answer2 = answer2,
+                        Answer3 = answer3,
+                        Answer4 = answer4,
+                        RightAnswer = rightanswer,
+                        IpAddress = GetIp(),
+                        LastUpdated = DateTime.Now,
+                        QuizQuizId = quizQuestionModel.QuizId
+                    };
+                    _unitOfWork.QuizAnswerRepository.Insert(quizAnswerModel);
+                    _unitOfWork.Save();
+                    scope.Complete();
+                }
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                scope.Dispose();
+                return Json(new {Result = "failed"}, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { Result = "success" }, JsonRequestBehavior.AllowGet);
+           // return null;
+        }
 
         private static string GetIp()
         {

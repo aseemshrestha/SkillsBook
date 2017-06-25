@@ -1,0 +1,125 @@
+﻿@using Elmah.ContentSyndication
+@model IEnumerable<SkillsBook.Models.Models.QuizModel>
+@{
+    ViewBag.Title = "PlayQuiz";
+}
+
+<div class="box-element base-alt">
+    <div class="row">
+        <div class="col-md-8">
+            <h1>
+                Can you nail these quizzes??
+            </h1>
+        </div>
+        <div class="col-md-4">
+            <a class="btn btn-b-white btn-lg pull-right" title="" href="#">
+                Lets Do it.
+            </a>
+        </div>
+    </div>
+</div>
+<br />
+<a href='@Url.Action("SubmitQuiz","Question")' style="color:cornflowerblue">Submit More Quizes</a>
+<input type="hidden" id="checkQuiz" data-url='@Url.Action("CheckQuiz","Question")'/>
+<br /><br />
+<ul class="pagination pagination-style-2">
+    @for (var i = 1; i <= Convert.ToInt32(ViewData["TotalPages"]); i++)
+    {
+        if (Convert.ToInt32(ViewData["CurrentPage"]) == i)
+        {
+            if (i < 1)
+            {
+                continue;
+            }
+            <li class="active"><a href="javascript:void(0)">@i</a></li>
+        }
+        else
+        {
+            <li><a href='@Url.Action("PlayQuiz", "Question", new { page = i })' id="@i">@i</a></li>
+        }
+    }
+</ul>
+
+@foreach (var item in Model)
+{
+    <section class="slice bg-white bb">
+        <div class="wp-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <ul class="list-listings">
+                            <li class="featured">
+                                <div class="listing-header bg-base">
+                                    Q: @item.Question
+                                </div>
+                                
+                                <div class="listing-body" style="padding-bottom:0;">
+                                    <img src="@Url.Content("~/images/match.jpg")" style="float:right;display: none" id="r_@item.QuizId" />
+                                    <img src="@Url.Content("~/images/wrong.jpg")" style="float:right;display: none" height="100" id="w_@item.QuizId" />
+                                    @foreach (var ans in @item.QuizAnswers)
+                                    {
+                                        
+                                        <form id="quizCheckForm" class="sky-form">
+                                            <label class="radio">
+                                                <input type="radio" name="quizRadio" id="@ans.QuizQuizId" value='@ans.Answer1'>
+                                                <i></i> @ans.Answer1
+                                            </label>
+                                            <label class="radio">
+                                                <input type="radio" name="quizRadio" id="@ans.QuizQuizId" value='@ans.Answer2'>
+                                                <i></i> @ans.Answer2
+                                            </label>
+                                            <label class="radio">
+                                                <input type="radio" name="quizRadio" id="@ans.QuizQuizId" value='@ans.Answer3'>
+                                                <i></i> @ans.Answer3
+                                            </label>
+                                            <label class="radio">
+                                                <input type="radio" name="quizRadio" id="@ans.QuizQuizId" value='@ans.Answer4'>
+                                                <i></i> @ans.Answer4
+                                            </label>
+                                            
+                                        </form>
+                                    }
+                                  
+                                        
+                                   
+                                    <div class="meta-info">
+                                        <ul>
+                                            <li><i class="fa fa-calendar"></i> <small>Asked On:@item.AskedOn.ToShortDateString()</small></li>
+                                            <li></li>
+                                            <li><i class="fa fa-user"></i> <small>By <a href="#">@(item.Username == "null" ? "Anonymous" : @item.Username)</a></small></li>
+                                            <li></li>
+                                            <li><i class="fa fa-comment"></i> <small>Played: <span id="ta_@item.QuizId">@item.TotalAnswers</span> times</small></li>
+                                            <li></li>
+                                            <li><i class="fa fa-calendar"></i> <small>Last Played On: @item.LastUpdated.ToShortDateString()</small></li>
+                                        </ul>
+                                    </div>
+                                   
+                                </div>
+                            </li>
+                            
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+}
+<ul class="pagination pagination-style-2">
+    @for (var i = 1; i <= Convert.ToInt32(ViewData["TotalPages"]); i++)
+    {
+        if (Convert.ToInt32(ViewData["CurrentPage"]) == i)
+        {
+            if (i < 1)
+            {
+                continue;
+            }
+            <li class="active"><a href="javascript:void(0)">@i</a></li>
+        }
+        else
+        {
+            <li><a href='@Url.Action("PlayQuiz", "Question", new { page = i })' id="@i">@i</a></li>
+        }
+    }
+</ul>

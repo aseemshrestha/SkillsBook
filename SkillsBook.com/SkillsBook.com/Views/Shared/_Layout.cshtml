@@ -1,51 +1,66 @@
 ﻿@using SkillsBook.Models.DAL
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="robots" content="index, follow">
-        <title>@Constants.Domain</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <meta charset="UTF-8" name="referrer" content="no-referrer">
+    <title>@Constants.Domain</title>
 
-        <!-- Essential styles -->
-        <link rel="stylesheet" href='@Url.Content("~/assets/bootstrap/css/bootstrap.min.css")' type="text/css">
-        <link rel="stylesheet" href='@Url.Content("~/font-awesome/css/font-awesome.min.css")' type="text/css">
-        <link rel="stylesheet" href='@Url.Content("~/assets/fancybox/jquery.fancybox.css?v=2.1.5")' media="screen">
-  
+    <!-- Essential styles -->
+    <link rel="stylesheet" href='@Url.Content("~/assets/bootstrap/css/bootstrap.min.css")' type="text/css">
+    <link rel="stylesheet" href='@Url.Content("~/font-awesome/css/font-awesome.min.css")' type="text/css">
+    <link rel="stylesheet" href='@Url.Content("~/assets/fancybox/jquery.fancybox.css?v=2.1.5")' media="screen">
 
-        <!-- SkillsOverflow styles -->
-        <link id="wpStylesheet" type="text/css" href='@Url.Content("~/css/global-style.css")' rel="stylesheet" media="screen">
 
-        <!-- Favicon -->
-        <link href='@Url.Content("~/images/favicon.png")' rel="icon" type="image/png">
+    <!-- SkillsOverflow styles -->
+    <link id="wpStylesheet" type="text/css" href='@Url.Content("~/css/global-style.css")' rel="stylesheet" media="screen">
 
-        <!-- Assets -->
-        <link rel="stylesheet" href='@Url.Content("~/assets/owl-carousel/owl.carousel.css")'>
-        <link rel="stylesheet" href='@Url.Content("~/assets/owl-carousel/owl.theme.css")'>
-        <link rel="stylesheet" href='@Url.Content("~/assets/sky-forms/css/sky-forms.css")'>
-  
-  
-    </head>
-    @(Request.Cookies["LogOnCookie"] != null ? Html.Partial("_Layout_Nav_LoggedOn") : Html.Partial("_Layout_Nav"))
-    <body>
-        <!-- <div class="body-wrap body-boxed body-bg-7">-->
-        <div class="body-wrap body-boxed body-bg-1">
-            @RenderBody()
-        </div>
-    </body>
-    @Html.Partial("_Layout_Footer")
+    <!-- Favicon -->
+    <link href='@Url.Content("~/images/favicon.png")' rel="icon" type="image/png">
+
+    <!-- Assets -->
+    <link rel="stylesheet" href='@Url.Content("~/assets/owl-carousel/owl.carousel.css")'>
+    <link rel="stylesheet" href='@Url.Content("~/assets/owl-carousel/owl.theme.css")'>
+    <link rel="stylesheet" href='@Url.Content("~/assets/sky-forms/css/sky-forms.css")'>
+
+
+</head>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-4400329859430580",
+        enable_page_level_ads: true
+    });
+</script>
+@*(Request.Cookies["LogOnCookie"] != null ? Html.Partial("_Layout_Nav_LoggedOn") : Html.Partial("_Layout_Nav"))*@
+
+<body>
+    @Html.Partial("_Layout_Nav")
+    <!-- <div class="body-wrap body-boxed body-bg-7">-->
+    <div class="body-wrap body-boxed">
+
+        @RenderBody()
+    </div>
+</body>
+
+@Html.Partial("_Layout_Footer")
 
 </html>
 @Scripts.Render("~/bundles/jquery")
 
+
+<!--
 <script src='@Url.Content("~/assets/fancybox/jquery.fancybox.pack.js?v=2.1.5")'></script>
 <script src='@Url.Content("~/Scripts/knockout-2.2.0.js")'></script>
-
 <script src='@Url.ContentVersioned(Url.Content("~/Scripts/app/main.js"))'></script>
 <script src='@Url.ContentVersioned(Url.Content("~/Scripts/app/search.js"))'></script>
 <script src='@Url.ContentVersioned(Url.Content("~/Scripts/app/myaccount.js"))'></script>
 <script src='@Url.ContentVersioned(Url.Content("~/Scripts/app/question.js"))'></script>
 <script src='@Url.Content("~/Scripts/app/jquery.MultiFile.min.js")'></script>
+<script src='@Url.Content("~/Scripts/app/quiz.js")'></script>
+    -->
 <script>
     (function (i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
@@ -60,4 +75,63 @@
 </script>
 @Scripts.Render("~/bundles/essentials")
 @Scripts.Render("~/bundles/assets")
-@Scripts.Render("~/bundles/optional")
+
+<link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#autocomplete").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: 'http://d.yimg.com/autoc.finance.yahoo.com/autoc?query=' + request.term + '&region=US&lang=en-US',
+                    cache: true, 
+                    dataType: 'jsonp',
+                    jsonpCallback: 'YAHOO.util.ScriptNodeDataSource.callbacks'
+                });
+
+                YAHOO = {
+                    util: {
+                        ScriptNodeDataSource: {
+                            callbacks: function (data) {
+                                response($.map(data.ResultSet.Result, function (item) {
+                                    return {
+                                        label: item.name+"    "+'('+item.symbol+')' +"   "+item.exch,
+                                        value: item.symbol
+                                    }
+                                }));
+                            }
+                        }
+                    }
+                }
+            },
+            select: function (event, ui) {
+                location.href = "?symbols=" + ui.item.value;
+            },
+        });
+        $("#d-a").hover(function () {
+            $('#dd-a').slideDown('medium');
+         },
+          function () { $('#dd-a').slideUp('medium'); }
+         );
+        $("#d-b").hover(function () {
+             $('#dd-b').slideDown('medium');
+         },function () {
+             $('#dd-b').slideUp('medium');
+         }
+        );
+        $("#d-c").hover(function () {
+             $('#dd-c').slideDown('medium');
+         },function () {
+             $('#dd-c').slideUp('medium');
+         }
+        );
+        $("#d-v").hover(function () {
+             $('#dd-v').slideDown('medium');
+         }, function () {
+             $('#dd-v').slideUp('medium');
+         }
+        );
+
+    });
+</script>

@@ -1,43 +1,33 @@
-﻿ <!-- MAIN CONTENT -->
-@model System.Threading.Tasks.Task<IList<SkillsBook.Models.Models.ThreadModel>>
-@using SkillsBook.Models.DAL;
-@{
-    string who = null;
-    bool isMobile = false;
-    string strUserAgent = Request.UserAgent.ToString().ToLower();
-    if (Request.Browser.IsMobileDevice == true || strUserAgent.Contains("iphone") ||
-        strUserAgent.Contains("blackberry") || strUserAgent.Contains("android")
-        )
-    {
-        isMobile = true;
+﻿@model IEnumerable<SkillsBook.Models.Models.News>
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
     }
-}
-@if (Request.Cookies["LogOnCookie"] != null)
-{
-    who = Request.Cookies["LogOnCookie"]["username"];
-   
-}
 
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
 <div class="pg-opt">
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <h2>Recent Threads</h2>
+                <h2 style="margin-left:-3%">
+                    Penny Stocks News (NYSE, NASDAQ, NYSEMKT)
+                    <span style="font-size:medium;color:red"><br /><small><br />Find the hidden catayst</small></span>
+                    <a href="@Url.Action("MyScan","Home")"><span style="color:blue">Scan all pennies at once</span></a><br />
+                       
+                </h2>
             </div>
-            <div class="col-md-6">
-                <ul class="breadcrumb">
-                    @if (who == null)
-                    {
-                        <li><a href="javascript:void(0)">Welcome and thank you for visiting. </a></li>
-                        <br />
-                    }
-                    else
-                    {
-                        <li><a href="javascript:void(0)">Welcome @who</a></li>
-                        <br />
-                    }
-                </ul>
-            </div>
+            
         </div>
     </div>
 </div>
@@ -45,29 +35,89 @@
     <div class="wp-section">
         <div class="container">
             <div class="row">
-                <div class="col-lg-9">
-                    @Html.Partial("Partial.ThreadModelResults")
-                    <a href="javascript:void(0)" id="reqUrl" data-url='@Url.Action("GetMorePost","Page")'></a>
-                    <input type="hidden" id="_psize" value="@Constants.BlocksizeInitialLoad" />
-                    <input type="hidden" id="_psizeConst" value="@Constants.BlocksizeInitialLoad" />
-                    <div id="morethreads">
+                <div class="col-md-4">
+                    <div class="wp-block">
+                        <div class="form-body">
+                            <form action="" id="frmLogin" class="sky-form">
+                                <fieldset>
+                                    <section>
+                                        <div class="form-group">
+                                            <label class="label">Search Symbol for News</label>
+                                            <label class="input">
+                                                <input type="text" name="text" id="autocomplete">
+                                            </label>
+                                        </div>
+                                    </section>
+                                  </fieldset>
+                            </form>
+                        </div>
+                        
                     </div>
-                    <button type="submit" class="btn btn-lg btn-block-bm btn-alt btn-icon btn-icon-right fa fa-angle-down mt-10" data-bind="click:loadMoreThreads">
-                        <span id="moreThread">Load More</span>
-                    </button>
-                </div>
-                @if (isMobile)
-                {
-                    <br /><br />
-                }
-                <div class="col-md-3">
-                    @Html.Partial("Partial.MostTrendingTagGeneral")
-                    @Html.Partial("Partial.MostTrendingTagAnnouncement")
-                    @Html.Partial("Partial.MostViewed")
-                    @Html.Partial("Partial.MostResponded")
-                    @Html.Partial("Partial.MostVoted")
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<div class="alert alert-info" style="overflow-x:auto;">
+    <span style="font-size:large">@ViewBag.Search</span>
+</div>
+<div style="overflow-x:auto;">
+    <table>
+        <tr>
+            <th>PublishedDate (EST)</th>
+            <th>Title</th>
+        </tr>
+        @if (Model!=null) { 
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.PublishedDateTime &nbsp;&nbsp;&nbsp;</td>
+
+                @{
+                    string _title = item.Title.ToLower();
+                    if (_title.Contains("merge") || _title.Contains("acquire") || _title.Contains("deal")
+                    || _title.Contains("approve") || _title.Contains("announce") || _title.Contains("earnigns")
+                    || _title.Contains("raises") || _title.Contains("acquisition") || _title.Contains("agreement")
+                    || _title.Contains("contract") || _title.Contains("partnership") || _title.Contains("partner")
+                    || _title.Contains("awarded") || _title.Contains("launch") || _title.Contains("participate") || _title.Contains("files"))
+                    {
+
+                        <td><a href="@item.Link"><span style="color:red;"><strong>HOT !!:@_title</strong></span></a></td>
+
+                    }
+                    else
+                    {
+                        <td><a href="@item.Link"><span style="color:#333399;"><strong>@_title</strong></span></a></td>
+                    }
+                }
+
+            </tr>
+
+         }
+        }
+    </table>
+</div>
+@*
+    <section class="slice bg-base" style="padding:90px 0;">
+        <div class="wp-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="text-center">
+                            <h2>Coming Soon</h2>
+                            <h1 class="font-xl">
+                                <i class="fa fa-times-circle-o"></i>
+                            </h1>
+                            <p>
+                                Stay tuned. Coming soon..
+                            </p>
+                            <span class="clearfix"></span>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+*@

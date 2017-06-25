@@ -46,6 +46,7 @@
         self.title = ko.observable(data.title.val());
         self.content = ko.observable(data.content.val());
         self.tagsG = ko.observable(data.tagsG.val());
+       // alert(self.tagsG());
         self.tagsArray = ko.observableArray(['Accommodation', 'Entertainment', 'Event', 'Education', 'Help', 'Intimacy', 'Immigration', 'Jobs',
             'Lets Talk', 'Love', 'News', 'Need a partner', 'WTF'
 
@@ -67,6 +68,14 @@
         //self.commentThreadId = ko.observable();
         //self.commetSubmitArray = ko.observableArray(['Friend','Well Wisher','Secret Admirer','Anonymous']);
         var counter = 0;
+
+        /*data.tagsG.on("blur", function() {
+            var val = $(this).val();
+            if (val.indexOf(',') > 0) {
+                val = val.substring(0, val.indexOf(',') - 1);
+            }
+            return val;
+        });*/
 
         (data.uname).on('blur', function () {
             var row = ko.dataFor(this);
@@ -301,7 +310,7 @@
 
         }
         self.populateTagField = function (tag) {
-            //not adding more than one now - changed the idea
+//not adding more than one now - changed the idea
             if (self.tagsA().length > 0 || self.tagsG().length > 0) {
                 return;
             }
@@ -371,6 +380,10 @@
                 self.validationErrors("<span>* All fields are required.</span>");
                 return;
             }
+            if (self.tagsA().indexOf(',') > 0 || self.tagsA().indexOf(';') > 0) {
+                self.validationErrors("<span>* Multiple tags are not allowed.</span>");
+                return;
+            }
             if (!re.test(self.email())) {
                 self.validationErrors("<span>* Please enter valid email.</span>");
                 return;
@@ -418,6 +431,10 @@
                 self.validationErrors("<span>* All fields are required.</span>");
                 return;
             }
+            if (self.tagsG().indexOf(',') > 0 || self.tagsG().indexOf(';') > 0) {
+                self.validationErrors("<span>* Multiple tags are not allowed.</span>");
+                return;
+            }
             if (!re.test(self.email())) {
                 self.validationErrors("<span>* Please enter valid email.</span>");
                 return;
@@ -448,6 +465,7 @@
             var p = parseInt($("#_psizeConst").val());
             var that = this;
             var moreThreads = $("#morethreads");
+            alert(url + '?size=' + block);
             $.get(url + '?size=' + block, function (page) {
                 if (page.length == 0) {
                     moreThreads.text("No more threads available.");
@@ -512,7 +530,7 @@
                 self.comment('Comment cannot be empty.');
                 return;
             }
-            $.post(url + '?comment=' + commentbox + '&threadId=' + threadId, function (callback, status) {
+            $.post(url + '?comment=' + encodeURIComponent(commentbox) + '&threadId=' + threadId, function (callback, status) {
                 //  $("#totalComments").text(callback.TotalCount);
                 // tinyMCE.activeEditor.setContent("");
                 //  $('html, body').animate({ scrollTop: $('#totalComments').offset().top }, 2000);

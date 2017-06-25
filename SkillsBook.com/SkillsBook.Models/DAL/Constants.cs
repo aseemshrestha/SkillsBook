@@ -10,8 +10,9 @@ namespace SkillsBook.Models.DAL
 {
     public class Constants
     {
-
-        public static string SchemaName = "[DB_9FFD81_sajhaspace].[dbo].";
+        //[DB_9FFD81_sajhaspa]
+        public static string SchemaName = "[DB_9FFD81_sajhaspa].[dbo].";
+       // public static string SchemaName = "[Sb1].[dbo].";
         public static int BlocksizeInitialLoad = 25;
         public static int BlocksizeMostViewed = 5;
         public static int BlocksizeMostLiked = 5;

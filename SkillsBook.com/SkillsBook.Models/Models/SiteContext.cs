@@ -16,7 +16,8 @@ namespace SkillsBook.Models.Models
     public class SiteContext : DbContext
     {
        public SiteContext()
-            : base("Data Source=SQL5005.myASP.NET;Initial Catalog=DB_9FFD81_sajhaspace;User Id=DB_9FFD81_sajhaspace_admin;Password=saraswati77")
+            : base("Data Source=sql5027.myasp.net;Initial Catalog=DB_9FFD81_sajhaspa;User ID=DB_9FFD81_sajhaspa_admin;Password=saraswati77")
+           //:base()
         {
        
         }
@@ -32,12 +33,14 @@ namespace SkillsBook.Models.Models
         public DbSet<QuestionModel> Question { get; set; }
         public DbSet<AnswerModel> Answer{ get; set; }
         public DbSet<AnswerResponseModel> AnswerResponse{ get; set; }
+        public DbSet<QuizModel> Quiz { get; set; }
+        public DbSet<QuizAnswersModel> QuizAnswer { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-           //Database.SetInitializer<SiteContext>(new DropCreateDatabaseIfModelChanges<SiteContext>());
+          // Database.SetInitializer<SiteContext>(new DropCreateDatabaseIfModelChanges<SiteContext>());
            Database.SetInitializer(new MigrateDatabaseToLatestVersion<SiteContext, Configuration>());
            // AutomaticMigrationDataLossAllowed = true;
            // new SiteContext().Database.Initialize(false); 

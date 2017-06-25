@@ -10,6 +10,7 @@ using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web.Razor.Parser.SyntaxTree;
 using System.Web.UI.WebControls;
 using SkillsBook.Models.Models;
 using SkillsBook.Models.ViewModel;
@@ -31,7 +32,31 @@ namespace SkillsBook.Models.DAL
         private BaseRepository<QuestionModel> _questionRepository;
         private BaseRepository<AnswerModel> _answerRepository;
         private BaseRepository<AnswerResponseModel> _answerResponseRepository;
+        private BaseRepository<QuizModel> _quizRepository;
+        private BaseRepository<QuizAnswersModel> _quizAnswerRepository;
 
+        public BaseRepository<QuizModel> QuizRepository
+        {
+            get
+            {
+                if (this._quizRepository== null)
+                {
+                    this._quizRepository = new BaseRepository<QuizModel>(_context);
+                }
+                return _quizRepository;
+            }
+        }
+        public BaseRepository<QuizAnswersModel> QuizAnswerRepository
+        {
+            get
+            {
+                if (this._quizAnswerRepository == null)
+                {
+                    this._quizAnswerRepository = new BaseRepository<QuizAnswersModel>(_context);
+                }
+                return _quizAnswerRepository;
+            }
+        }
         public BaseRepository<QuestionModel> QuestionRepository
         {
             get
@@ -275,6 +300,20 @@ namespace SkillsBook.Models.DAL
                                               " [Threads]" + "order by LastUpdated desc");
                 return await model.ToListAsync();
             }
+        }
+        public IEnumerable<QuizModel> GetRecentQuiz(int blockSize, int page)
+        {
+            var offset = (page - 1) * blockSize;
+            /*var query = "Select Top " + blockSize + " * from " + Constants.SchemaName +
+                        " [Quiz] q INNER JOIN " + Constants.SchemaName +
+                        " [QuizAnswer] qa on q.QuizId=qa.Question_QuizId " + "order by q.LastUpdated desc";
+            return _context.Database.SqlQuery<QuizModel>(query).ToList();*/
+            //.Skip(offset).Take((int)(offset > Constants.BlocksizeMax ? offset - (offset - Constants.BlocksizeMax) : offset == 0 ? Constants.BlocksizeMax : offset)).OrderByDescending(x => x.AskedOn)
+            return _context.Quiz.Include(x => x.QuizAnswers)
+                .OrderByDescending(x=>x.LastUpdated)
+                .Skip(offset).Take((int)(offset > blockSize ? offset - (offset - blockSize) : offset == 0 ? blockSize : offset))
+                .ToList();
+            
         }
         public async Task<List<ClassifiedModel>> GetRecentClassifieds(int blockSize)
         {

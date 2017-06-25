@@ -418,6 +418,8 @@ namespace SkillsBook.com.Controllers
             {
                 _unitOfWork.FeedBackRepository.Insert(fb);
                 _unitOfWork.Save();
+                _unitOfWork.SendEmail("shrestha.asm@gmail.com", "Feedback summarizehour.com", message);
+
             }
             catch (Exception ex)
             {
@@ -425,6 +427,7 @@ namespace SkillsBook.com.Controllers
                 return Json(new { Result = "failed", Message = "OOPS! Something went wrong. Please try again." });
 
             }
+           
             return Json(new {Result ="success", Message="Thank you for your Feedback."});
         }
 
